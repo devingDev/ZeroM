@@ -15,6 +15,10 @@ Probably have to do it for each version or have people use only one version.
 
 
 ### Installing
+
+You will need to install ioplus first!!!
+
+
 There are two types of installation:
 
 [A] Simple install
