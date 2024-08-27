@@ -18,10 +18,11 @@ const int PLUGINLOADER_VERSION = 3;
 void load_ZeroM();
 void unload_ZeroM();
 
+int run = 1;
 SceUID thid = -1;
 int PluginLoader_thread(unsigned int args, void* argp)
 {
-	sceClibPrintf("PluginLoader_thread started \n");
+	sceClibPrintf("PluginLoader_thread started\n");
 	load_ZeroM();
 	
 	
@@ -29,7 +30,7 @@ int PluginLoader_thread(unsigned int args, void* argp)
 	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG_WIDE);
 	sceCtrlPeekBufferPositive(0, &ctrlData, 1);
 	
-	while (1)
+	while (run == 1)
 	{
 		sceCtrlPeekBufferPositive(0, &ctrlData, 1);
 		if(ctrlData.buttons & SCE_CTRL_RTRIGGER){
@@ -90,6 +91,7 @@ int module_start(SceSize argc, const void *args) {
 int module_stop(SceSize argc, const void *args) 
 {
 	sceClibPrintf("Stopping PluginLoader!\n");
+	run = 0;
 	sceKernelWaitThreadEnd(thid, NULL, NULL);
 	return SCE_KERNEL_STOP_SUCCESS;
 }
