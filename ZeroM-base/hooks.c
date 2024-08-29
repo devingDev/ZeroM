@@ -17,6 +17,10 @@ void prepareHooking(){
 	taiGetModuleInfo(TAI_MAIN_MODULE, &info);
 	logInfo("module_nid : %08X", info.module_nid);
 	logInfo("modid : %08X", info.modid);
+	logInfo("exports_start : %08X", info.exports_start);
+	logInfo("exports_end : %08X", info.exports_end);
+	logInfo("imports_start : %08X", info.imports_start);
+	logInfo("imports_end : %08X", info.imports_end);
 
     SceUID currentPID = sceKernelGetProcessId();
 	logInfo("Process ID : %d", currentPID);
