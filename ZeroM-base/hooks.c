@@ -1,13 +1,51 @@
 #include "hooks.h"
+#include "log.h"
 
 
 tai_hook_ref_t hook_refs[TOTAL_HOOKS];
 SceUID hooks[TOTAL_HOOKS];
+int currentHooks = 0;
+tai_module_info_t info;
+void (* EntityTick1)(int *param1) = NULL;
 
-SceUID add_taiHookFunctionOffset	(tai_hook_ref_t* p_hook, SceUID modid, int segidx, uint32_t offset, int thumb, const void * hook_func){
 
+void prepareHooking(){
+	info.size = sizeof(tai_module_info_t);
+	taiGetModuleInfo(TAI_MAIN_MODULE, &info);
+	logInfo("module_nid : %08X", info.module_nid);
+	logInfo("modid : %08X", info.modid);
 
-    return 0;
+    SceUID currentPID = sceKernelGetProcessId();
+	logInfo("Process ID : %d", currentPID);
+	//sceKernelGetModuleInfo(uid, &info)
+	int ret = module_get_offset(info.modid, 0, 0x16f00e, &EntityTick1);
+	if(ret < 0){
+		logInfo("ERROR getting function ERRORCODE: %d", ret);
+	}else{
+		logInfo("module_get_offset: %08X    %d", (int)EntityTick1, ret);
+	}
+	//int ret = module_get_offset(currentPID, info.modid, 0, 0x16f00e, &EntityTick1);
+}
+
+void setupHooks(){
+	logInfo("Hooking");
+    add_taiHookFunctionOffset(0x32FE14, Player_Tick_patched);
+    add_taiHookFunctionOffset(0x289684, Livingent_Tick_patched);
+    add_taiHookFunctionOffset(0x83458C, CreateServerPlayer_patched);
+}
+
+void unhook(){
+	logInfo("Removing hooks...");
+	for (int i = 0; i < TOTAL_HOOKS; i++){
+		if (hooks[i] >= 0) taiHookRelease(hooks[i], hook_refs[i]);
+	}
+}
+
+void add_taiHookFunctionOffset(uint32_t offset, const void * hook_func){
+    int segidx = 0;
+    int thumb = 1;
+	hooks[currentHooks] = taiHookFunctionOffset(&hook_refs[currentHooks], info.modid, segidx, offset, thumb, hook_func);
+    currentHooks++;
 }
 
 int module_get_offset(int uid, int seg, uint32_t in_off, void *out_off) {
@@ -28,19 +66,19 @@ Player* playerCaught = NULL;
 
 void Player_Tick_patched(Player *playerF) {
 
-	if(playerF != player){
+	if(playerF != NULL && playerF != player){
 		if(playerCaught == NULL){
 			playerAdd = (int*)playerF;
 			playerCaught = playerF;
-			sceClibPrintf("Player_Tick_patched playerCaught: %08X\n", (int)playerAdd);
+			logInfo("Player_Tick_patched playerCaught: %08X %08X", (int)playerAdd, &playerF);
 		}
 	}
 
 	TAI_NEXT(Player_Tick_patched, hook_refs[0], playerF);
 	
-	//sceClibPrintf("Player_Tick_patched: %08X\n", param_1);
+	//logInfo("Player_Tick_patched: %08X\n", param_1);
 	
-	//sceClibPrintf("B:%.2f|%.2f|%.2f\r\n", *(float*)&param_1[0x100], *(float*)&param_1[0x101], *(float*)&param_1[0x102]);
+	//logInfo("B:%.2f|%.2f|%.2f\r\n", *(float*)&param_1[0x100], *(float*)&param_1[0x101], *(float*)&param_1[0x102]);
 }
 
 void Livingent_Tick_patched(int *param_1) {
@@ -49,13 +87,14 @@ void Livingent_Tick_patched(int *param_1) {
 	
 }
 
+
 int  CreateServerPlayer_patched(Player* playerAllocated, int a2, int *a3, int a4, int a5){
 	player = playerAllocated;
-	sceClibPrintf("%llu sub_8183458C %08X\n", GetTick(), (int)(int*)playerAllocated);
-	int result = TAI_NEXT(CreateServerPlayer_patched, hook_refs[19],playerAllocated,a2,a3,a4,a5);
+	logInfo("%llu CreateServerPlayer_patched %08X", GetTick(), (int)(int*)playerAllocated);
+	int result = TAI_NEXT(CreateServerPlayer_patched,  hook_refs[2],playerAllocated,a2,a3,a4,a5);
 
 	//print_bytes(playerAllocated->extraData, 0xA8C);
-	sceClibPrintf("%llu sub_8183458C %08X\n", GetTick(), (int)(int*)playerAllocated);
+	logInfo("%llu sub_8183458C %08X", GetTick(), (int)(int*)playerAllocated);
 
 	return result;
 }

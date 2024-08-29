@@ -28,8 +28,14 @@
 #define TOTAL_HOOKS 32
 extern tai_hook_ref_t hook_refs[TOTAL_HOOKS];
 extern SceUID hooks[TOTAL_HOOKS];
+extern int currentHooks;
+extern tai_module_info_t info;
 
-SceUID add_taiHookFunctionOffset	(tai_hook_ref_t* p_hook, SceUID modid, int segidx, uint32_t offset, int thumb, const void * hook_func );
+
+void prepareHooking();
+void setupHooks();
+void unhook();
+void add_taiHookFunctionOffset(uint32_t offset, const void * hook_func);
 
 
 
