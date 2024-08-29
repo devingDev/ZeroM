@@ -16,6 +16,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "structures.h"
+#include "log.h"
+#include "testhooks.h"
 
 #define TAI_NEXT(this_func, hook, ...) ({ \
   (((struct _tai_hook_user *)hook)->next) != 0 ? \
@@ -35,7 +37,7 @@ extern tai_module_info_t info;
 void prepareHooking();
 void setupHooks();
 void unhook();
-void add_taiHookFunctionOffset(uint32_t offset, const void * hook_func);
+tai_hook_ref_t* add_taiHookFunctionOffset(uint32_t offset, const void * hook_func);
 
 
 

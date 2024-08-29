@@ -53,6 +53,7 @@ add_executable(user
   user.c
   hooks.c
   log.c
+  testhooks.c
 )
 
 
