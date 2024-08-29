@@ -15,6 +15,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,-q -Wall -O3 -std=gnu99")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions")
 
 include_directories(
+  ./
 )
 
 link_directories(
@@ -50,6 +51,8 @@ endfunction()
 add_executable(user
 #  ${xml_res}
   user.c
+  hooks.c
+  log.c
 )
 
 

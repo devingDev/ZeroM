@@ -8,6 +8,6 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-sh upload_zerom.sh && sh netcat_listen.sh
+sh upload_zerom.sh # && sh netcat_listen.sh # switched to psmusblog
 
 echo "End of run_zerom_all.sh";
