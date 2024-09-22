@@ -13,8 +13,9 @@
 #include <stdlib.h>
 #include "log.h"
 #include "hooks.h"
+#include "patches.h"
 
-const int ZEROM_VERSION = 12;
+const int ZEROM_VERSION = 14;
 
 
 
@@ -103,7 +104,8 @@ int ZeroM_thread(unsigned int args, void* argp){
 
 void _start() __attribute__((weak, alias("module_start")));
 int module_start(SceSize argc, const void *args) {
-	logInfo("Starting ZeroM! v: %d", ZEROM_VERSION);
+	logInfo("\n\n\n\n\n\n");
+	logInfo("Starting ZeroM! v: %lu", ZEROM_VERSION);
 	
 	sceKernelDelayThread(1000);
 	prepareHooking();
@@ -113,10 +115,10 @@ int module_start(SceSize argc, const void *args) {
 	
 
 	setupHooks();
-
-
-
 	logInfo("Hooked\n");
+
+	doPatches();
+	logInfo("Patched\n");
 	
 	
 	return SCE_KERNEL_START_SUCCESS;

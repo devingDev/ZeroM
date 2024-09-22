@@ -54,6 +54,7 @@ add_executable(user
   hooks.c
   log.c
   testhooks.c
+  patches.c
 )
 
 
@@ -66,6 +67,7 @@ target_link_libraries(user
   SceVshBridge_stub
   SceKernelThreadMgr_stub 
   SceKernelModulemgr_stub
+  SceSysclibForDriver_stub 
   SceCtrl_stub
 )
 

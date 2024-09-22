@@ -35,6 +35,7 @@ target_link_libraries(user
   taihen_stub
   SceLibKernel_stub
   SceIofilemgr_stub
+  SceSysmem_stub 
   SceRegistryMgr_stub
   ScePower_stub
   SceVshBridge_stub

@@ -6,11 +6,14 @@ tai_hook_ref_t hook_refs[TOTAL_HOOKS];
 SceUID hooks[TOTAL_HOOKS];
 int currentHooks = 0;
 tai_module_info_t info;
+SceKernelModuleInfo extrainfo;
+
 void (* EntityTick1)(int *param1) = NULL;
 
 tai_hook_ref_t* playerTickHookRef; 
 tai_hook_ref_t* livingEntTickHookRef; 
 tai_hook_ref_t* createServerPlayerHookRef; 
+
 
 void prepareHooking(){
 	info.size = sizeof(tai_module_info_t);
@@ -22,8 +25,12 @@ void prepareHooking(){
 	logInfo("imports_start : %08X", info.imports_start);
 	logInfo("imports_end : %08X", info.imports_end);
 
+	extrainfo.size = sizeof(SceKernelModuleInfo);
+	sceKernelGetModuleInfo(info.modid, &extrainfo);
+	logInfo("segments[0] : %08X %08X", extrainfo.segments[0].vaddr, extrainfo.segments[0].memsz);
+
     SceUID currentPID = sceKernelGetProcessId();
-	logInfo("Process ID : %d", currentPID);
+	logInfo("Process ID : %08X", currentPID);
 	//sceKernelGetModuleInfo(uid, &info)
 	int ret = module_get_offset(info.modid, 0, 0x16f00e, &EntityTick1);
 	if(ret < 0){
@@ -50,12 +57,16 @@ void unhook(){
 	}
 }
 
-tai_hook_ref_t* add_taiHookFunctionOffset(uint32_t offset, const void * hook_func){
+tai_hook_ref_t* add_taiHookFunctionOffsetThumb(uint32_t offset, const void * hook_func, int thumb){
     int segidx = 0;
-    int thumb = 1;
 	hooks[currentHooks] = taiHookFunctionOffset(&hook_refs[currentHooks], info.modid, segidx, offset, thumb, hook_func);
     currentHooks++;
     return &hook_refs[currentHooks-1];
+}
+
+tai_hook_ref_t* add_taiHookFunctionOffset(uint32_t offset, const void * hook_func){
+    int thumb = 1;
+	return add_taiHookFunctionOffsetThumb(offset, hook_func, thumb);
 }
 
 int module_get_offset(int uid, int seg, uint32_t in_off, void *out_off) {
@@ -80,7 +91,7 @@ void Player_Tick_patched(Player *playerF) {
 		if(playerCaught == NULL){
 			playerAdd = (int*)playerF;
 			playerCaught = playerF;
-			logInfo("Player_Tick_patched playerCaught: %08X %08X", (int)playerAdd, &playerF);
+			logInfo("Player_Tick_patched playerCaught: %08X %08X %p", (int)playerAdd, &playerF, &playerF);
 		}
 	}
 
@@ -100,11 +111,11 @@ void Livingent_Tick_patched(int *param_1) {
 
 int  CreateServerPlayer_patched(Player* playerAllocated, int a2, int *a3, int a4, int a5){
 	player = playerAllocated;
-	logInfo("%llu CreateServerPlayer_patched %08X", GetTick(), (int)(int*)playerAllocated);
+	logInfo("%llu CreateServerPlayer_patched start %p %p", GetTick(), (int)(int*)playerAllocated, &playerAllocated);
 	int result = TAI_NEXT(CreateServerPlayer_patched, *createServerPlayerHookRef,playerAllocated,a2,a3,a4,a5);
 
 	//print_bytes(playerAllocated->extraData, 0xA8C);
-	logInfo("%llu sub_8183458C %08X", GetTick(), (int)(int*)playerAllocated);
+	logInfo("%llu CreateServerPlayer_patched end   %p %p", GetTick(), (int)(int*)playerAllocated, &playerAllocated);
 
 	return result;
 }

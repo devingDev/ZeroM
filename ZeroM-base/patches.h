@@ -1,5 +1,5 @@
-#ifndef TESTHOOKS_H
-#define TESTHOOKS_H
+#ifndef PATCHES_H
+#define PATCHES_H
 #include <psp2/kernel/clib.h>
 #include <psp2/kernel/modulemgr.h>
 #include <psp2common/kernel/threadmgr.h> 
@@ -11,15 +11,16 @@
 #include <psp2/kernel/rng.h> 
 #include <psp2/power.h>
 #include <psp2/ctrl.h>
+#include <psp2kern/kernel/sysclib.h> 
 #include <string.h>
 #include <taihen.h>
 #include <stdbool.h>
-#include <locale.h>
 #include <stdlib.h>
-#include <wchar.h>
 #include "structures.h"
+#include "log.h"
+#include "testhooks.h"
 #include "hooks.h"
 
-void doTestHooks();
+void doPatches();
 
 #endif
