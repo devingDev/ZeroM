@@ -49,7 +49,7 @@ target_link_libraries(user
   SceVshBridge_stub
   SceKernelThreadMgr_stub 
   SceKernelModulemgr_stub
-  SceSysclibForDriver_stub 
+  SceLibc_stub 
   SceCtrl_stub
   k
   gcc

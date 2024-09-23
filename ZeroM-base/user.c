@@ -136,7 +136,7 @@ int module_start(SceSize argc, const void *args) {
 	doPatches();
 	logInfo("Patched\n");
 	
-	//menu_draw_hook();
+	menu_draw_hook();
 
 	
 	return SCE_KERNEL_START_SUCCESS;
