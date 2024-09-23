@@ -21,37 +21,11 @@ uint64_t t_tick;
 
 SceCtrlData pad;
 int sceDisplaySetFrameBuf_patched(const SceDisplayFrameBuf *pParam, int sync) {
-	sceCtrlPeekBufferPositive(0, &pad, 1);
-	if (pad.buttons & SCE_CTRL_START){
-		if (switch_tick == 0) switch_tick = sceKernelGetProcessTimeWide();
-		else if ((sceKernelGetProcessTimeWide() - switch_tick) > SWITCH_MODE_DELAY){
-			switch_tick = 0;
-			t_tick = 0;
-			tick = 0;
-			frames = 0;
-			mode = (mode + 1) % NUM_MODES;
-		}
-	}else switch_tick = 0;
-	switch (mode) {
-	case INTEGER_FPS:
-		t_tick = sceKernelGetProcessTimeWide();
-		updateFramebuf(pParam);
-		if (tick == 0){
-			tick = t_tick;
-			setTextColor(0x00FFFFFF);
-		}else{
-			if ((t_tick - tick) > FPS_TIMER_TICK){
-				fps = frames;
-				frames = 0;
-				tick = t_tick;
-			}
-			drawStringF(5, 5, "FPS: %d", fps);
-		}
-		frames++;
-		break;
-	default:
-		break;
-	}
+    sceCtrlPeekBufferPositive(0, &pad, 1);
+
+    updateFramebuf(pParam);
+	drawStringF(5, 5, "ZeroM v:%d" , ZEROM_VERSION);
+
 	return TAI_CONTINUE(int, display_ref, pParam, sync);
 }
 
@@ -59,6 +33,7 @@ int sceDisplaySetFrameBuf_patched(const SceDisplayFrameBuf *pParam, int sync) {
 
 
 void menu_draw_hook(){
+    setTextColor(0x00FFFFFF);
 	hook = taiHookFunctionImport(&display_ref,
 						TAI_MAIN_MODULE,
 						TAI_ANY_LIBRARY,

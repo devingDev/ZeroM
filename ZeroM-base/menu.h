@@ -8,6 +8,7 @@
 #include <taihen.h>
 #include <string.h>
 #include "renderer.h"
+#include "log.h"
 
 void menu_draw_hook();
 void menu_draw_release_hook();

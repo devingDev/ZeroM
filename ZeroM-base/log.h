@@ -8,8 +8,9 @@
 #include <psp2/kernel/clib.h> 
 #include <vitasdk.h>
 #include <psp2/paf/misc.h> 
+#include "version.h"
 
-#define MODULE_STRING "ZeroM"
+
 #define LOG_BUFFER_SIZE 1024
 
 #define logInfo(X,...) sceClibPrintf("ZeroM[INFO] "X"\n", ##__VA_ARGS__)

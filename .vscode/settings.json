@@ -6,6 +6,9 @@
         "testhooks.h": "c",
         "font.h": "c",
         "menu.h": "c",
-        "renderer.h": "c"
+        "renderer.h": "c",
+        "patches.h": "c",
+        "log.h": "c",
+        "version.h": "c"
     }
 }

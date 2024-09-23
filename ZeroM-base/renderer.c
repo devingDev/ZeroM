@@ -68,7 +68,7 @@ void drawStringF(int x, int y, const char *format, ...){
 	va_list va;
 
 	va_start(va, format);
-	vsnprintf(str, 512, format, va);
+	sceClibVsnprintf(str, 512, format, va);
 	va_end(va);
 
 	drawString(x, y, str);
