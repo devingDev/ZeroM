@@ -33,7 +33,7 @@ int sceDisplaySetFrameBuf_patched(const SceDisplayFrameBuf *pParam, int sync) {
 
 
 void menu_draw_hook(){
-    setTextColor(0x00FFFFFF);
+   // setTextColor(0x00FFFFFF);
 	hook = taiHookFunctionImport(&display_ref,
 						TAI_MAIN_MODULE,
 						TAI_ANY_LIBRARY,
