@@ -15,7 +15,7 @@
 #include "hooks.h"
 #include "patches.h"
 
-const int ZEROM_VERSION = 14;
+const int ZEROM_VERSION = 15;
 
 
 
@@ -70,6 +70,17 @@ int ZeroM_thread(unsigned int args, void* argp){
 				logInfo("\n=====[DUMP END]=====\n\n");
 
 			}
+
+			if(ctrlData.buttons & SCE_CTRL_LEFT){
+				/*if(activeMenu == 0){
+					activeMenu = 1;
+				}
+				if(activeMenu == 1){
+					activeMenu = 0;
+				}*/
+				sceKernelDelayThread(550);
+
+			}
 			
 					
 			
@@ -107,12 +118,17 @@ int module_start(SceSize argc, const void *args) {
 	logInfo("\n\n\n\n\n\n");
 	logInfo("Starting ZeroM! v: %lu", ZEROM_VERSION);
 	
+	const char src[0x10] = "test 12345";
+   	char dest[0x10];
+	memcpy(dest, src, strlen(src) + 1);
+	logInfo("memcpy : %s\n", dest);
+
 	sceKernelDelayThread(1000);
 	prepareHooking();
 	
 	thid = sceKernelCreateThread("ZeroM_thread", ZeroM_thread, 0x40, 0x10000, 0, 0, NULL);
 	sceKernelStartThread(thid, 0, NULL);
-	
+
 
 	setupHooks();
 	logInfo("Hooked\n");
@@ -120,6 +136,8 @@ int module_start(SceSize argc, const void *args) {
 	doPatches();
 	logInfo("Patched\n");
 	
+	//menu_draw_hook();
+
 	
 	return SCE_KERNEL_START_SUCCESS;
 }
@@ -129,9 +147,9 @@ int module_stop(SceSize argc, const void *args)
 	logInfo("Stopping ZeroM!");
 	
 	unhook();
-
+	menu_draw_release_hook();
 	run = 0;
 	sceKernelWaitThreadEnd(thid, NULL, NULL);
-		
+	
 	return SCE_KERNEL_STOP_SUCCESS;
 }

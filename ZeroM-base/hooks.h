@@ -35,6 +35,7 @@ extern tai_hook_ref_t hook_refs[TOTAL_HOOKS];
 extern SceUID hooks[TOTAL_HOOKS];
 extern int currentHooks;
 extern tai_module_info_t info;
+extern int activeMenu;
 
 
 void prepareHooking();

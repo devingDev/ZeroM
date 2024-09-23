@@ -50,7 +50,7 @@ void print_bytes(const unsigned char *data, size_t size){
 }
 
 void hex_dump(const char *name, int *addr, int length) {
-	if(addr < 0x81000000 || addr > 0x83FFFFFF)
+	if(addr < 0x81000000 || addr > 0x85FFFFFF)
     {
         return;
     }

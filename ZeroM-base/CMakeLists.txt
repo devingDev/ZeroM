@@ -27,48 +27,33 @@ if (NOT ${RELEASE})
 endif()
 
 # Builds
-function(ADD_RESOURCES out_var)
-  set(result)
-  foreach(in_f ${ARGN})
-    set(out_f "${CMAKE_CURRENT_BINARY_DIR}/${in_f}.o")
-    get_filename_component(out_dir ${out_f} DIRECTORY)
-    add_custom_command(OUTPUT ${out_f}
-      COMMAND ${CMAKE_COMMAND} -E make_directory ${out_dir}
-      COMMAND ${CMAKE_LINKER} -r -b binary -o ${out_f} ${in_f}
-      DEPENDS ${in_f}
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-      COMMENT "Building resource ${out_f}"
-      VERBATIM
-      )
-    list(APPEND result ${out_f})
-  endforeach()
-  set(${out_var} "${result}" PARENT_SCOPE)
-endfunction()
 
-#file(GLOB res_files RELATIVE ${CMAKE_SOURCE_DIR} *.xml)
-#add_resources(xml_res ${res_files})
 
 add_executable(user
-#  ${xml_res}
   user.c
   hooks.c
   log.c
   testhooks.c
   patches.c
+  renderer.c
+  menu.c
 )
 
 
 target_link_libraries(user
   taihen_stub
   SceLibKernel_stub
+  SceDisplay_stub
   SceIofilemgr_stub
   SceRegistryMgr_stub
-  ScePower_stub
   SceVshBridge_stub
   SceKernelThreadMgr_stub 
   SceKernelModulemgr_stub
   SceSysclibForDriver_stub 
   SceCtrl_stub
+  k
+  gcc
+  ScePower_stub
 )
 
 

@@ -126,10 +126,23 @@ int* FUN_8189a58a(int* r1, int r2, int r3, int r4, int r5, char r6)
 }
 
 
+tai_hook_ref_t* LocalPlayer__tick_REF;
+void LocalPlayer__tick(int *param_1){
+	TAI_NEXT(LocalPlayer__tick, *LocalPlayer__tick_REF, param_1);
+    //logInfo("LocalPlayer__tick begin %08X", param_1);
+}
+
+tai_hook_ref_t* MinecraftServer__tick_REF;
+void MinecraftServer__tick(int *param_1){
+	TAI_NEXT(MinecraftServer__tick, *MinecraftServer__tick_REF, param_1);
+    //logInfo("MinecraftServer__tick begin %08X", param_1);
+    //hex_dump("MinecraftServer__tick param_1", param_1, 0x50);
+}
+
 void doTestHooks(){
     ServerAllocator_REF = add_taiHookFunctionOffset(0x5bfde6, ServerAllocator);
     ServerDeconstructor_REF = add_taiHookFunctionOffset(0x807d22, ServerDeconstructor);
-    ServerStarter_REF = add_taiHookFunctionOffset(0x5bfde6, ServerStarter);
+    //ServerStarter_REF = add_taiHookFunctionOffset(0x5bfde6, ServerStarter);
     ServerVTBLConstructor_REF = add_taiHookFunctionOffset(0x807b5c, ServerVTBLConstructor);
     //sub_81972508_REF = add_taiHookFunctionOffset(0x972508, sub_81972508);
     //TNT_SomethingSetupSides_REF = add_taiHookFunctionOffset(0x43dd80, TNT_SomethingSetupSides);
@@ -137,6 +150,10 @@ void doTestHooks(){
     FUN_81972508_REF = add_taiHookFunctionOffset(0x972508, FUN_81972508);
 
     FUN_8189a58a_REF = add_taiHookFunctionOffset(0x89a58a, FUN_8189a58a);
+
+    LocalPlayer__tick_REF = add_taiHookFunctionOffset(0x7edcca, LocalPlayer__tick);
+    MinecraftServer__tick_REF = add_taiHookFunctionOffset(0x80a11e, MinecraftServer__tick);
+    
    //taiHookFunctionOffset(&FUN_8189a58a_REF, info.modid, 0, 0x89a58a, 1, FUN_8189a58a);
 
 }

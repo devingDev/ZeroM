@@ -41,8 +41,12 @@ void prepareHooking(){
 	//int ret = module_get_offset(currentPID, info.modid, 0, 0x16f00e, &EntityTick1);
 }
 
+
+
 void setupHooks(){
 	logInfo("Hooking");
+
+
     playerTickHookRef =  add_taiHookFunctionOffset(0x32FE14, Player_Tick_patched);
     livingEntTickHookRef = add_taiHookFunctionOffset(0x289684, Livingent_Tick_patched);
     createServerPlayerHookRef = add_taiHookFunctionOffset(0x83458C, CreateServerPlayer_patched);

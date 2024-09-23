@@ -1,0 +1,11 @@
+{
+    "cmake.ignoreCMakeListsMissing": true,
+    "files.associations": {
+        "hooks.h": "c",
+        "structures.h": "c",
+        "testhooks.h": "c",
+        "font.h": "c",
+        "menu.h": "c",
+        "renderer.h": "c"
+    }
+}
