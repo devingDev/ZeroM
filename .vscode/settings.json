@@ -9,6 +9,9 @@
         "renderer.h": "c",
         "patches.h": "c",
         "log.h": "c",
-        "version.h": "c"
+        "version.h": "c",
+        "player.h": "c",
+        "stdlib.h": "c",
+        "stdbool.h": "c"
     }
 }

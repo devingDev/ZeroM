@@ -46,7 +46,6 @@ void prepareHooking(){
 void setupHooks(){
 	logInfo("Hooking");
 
-
     playerTickHookRef =  add_taiHookFunctionOffset(0x32FE14, Player_Tick_patched);
     livingEntTickHookRef = add_taiHookFunctionOffset(0x289684, Livingent_Tick_patched);
     createServerPlayerHookRef = add_taiHookFunctionOffset(0x83458C, CreateServerPlayer_patched);
@@ -90,36 +89,20 @@ Player* player = NULL;
 Player* playerCaught = NULL;
 
 void Player_Tick_patched(Player *playerF) {
-
-	if(playerF != NULL && playerF != player){
-		if(playerCaught == NULL){
-			playerAdd = (int*)playerF;
-			playerCaught = playerF;
-			logInfo("Player_Tick_patched playerCaught: %08X %08X %p", (int)playerAdd, &playerF, &playerF);
-		}
-	}
-
 	TAI_NEXT(Player_Tick_patched, *playerTickHookRef, playerF);
-	
-	//logInfo("Player_Tick_patched: %08X\n", param_1);
-	
-	//logInfo("B:%.2f|%.2f|%.2f\r\n", *(float*)&param_1[0x100], *(float*)&param_1[0x101], *(float*)&param_1[0x102]);
 }
 
 void Livingent_Tick_patched(int *param_1) {
 	TAI_NEXT(Livingent_Tick_patched, *livingEntTickHookRef, param_1);
-	
-	
 }
 
 
 int  CreateServerPlayer_patched(Player* playerAllocated, int a2, int *a3, int a4, int a5){
 	player = playerAllocated;
-	logInfo("%llu CreateServerPlayer_patched start %p %p", GetTick(), (int)(int*)playerAllocated, &playerAllocated);
+	//logInfo("%llu CreateServerPlayer_patched start %p %p", GetTick(), (int)(int*)playerAllocated, &playerAllocated);
 	int result = TAI_NEXT(CreateServerPlayer_patched, *createServerPlayerHookRef,playerAllocated,a2,a3,a4,a5);
 
-	//print_bytes(playerAllocated->extraData, 0xA8C);
-	logInfo("%llu CreateServerPlayer_patched end   %p %p", GetTick(), (int)(int*)playerAllocated, &playerAllocated);
+	//logInfo("%llu CreateServerPlayer_patched end   %p %p", GetTick(), (int)(int*)playerAllocated, &playerAllocated);
 
 	return result;
 }

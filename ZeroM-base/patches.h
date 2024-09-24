@@ -16,7 +16,7 @@
 #include <taihen.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include "structures.h"
+#include "structures/player.h"
 #include "log.h"
 #include "testhooks.h"
 #include "hooks.h"

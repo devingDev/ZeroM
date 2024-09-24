@@ -93,16 +93,9 @@ int ZeroM_thread(unsigned int args, void* argp){
 				//playerAdd[0x52]  = *(int*)&angle; // first person viewangle
 				//playerAdd[0x53]  = *(int*)&angle2; // first person viewangle
 
-				// kinda broken :(
+				// kinda broken? :(
 				playerCaught->angle1 = angle;
 				playerCaught->angle2 = angle2;
-				double pos = 150.0;
-				playerCaught->posy1 = pos;
-				playerCaught->posz1 = pos;
-				playerCaught->posy2 = pos;
-				playerCaught->posz2 = pos;
-				playerCaught->posy3 = pos;
-				playerCaught->posz3 = pos;
 			}
 		
 		}

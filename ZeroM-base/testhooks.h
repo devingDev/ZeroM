@@ -17,8 +17,9 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <wchar.h>
-#include "structures.h"
+#include "structures/player.h"
 #include "hooks.h"
+#include "log.h"
 
 void doTestHooks();
 
