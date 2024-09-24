@@ -22,8 +22,11 @@ ur0:tai/ZeroM.suprx
 
 ### Usage
 [L] + [Select] : toggle menu
+
 Arrow keys : move in the menu
+
 [X]/[O] : enter/back, depending on your setting(jp?) 
+
 [L]/[R] : switch tabs
 
 ### Installing (more in-depth)
