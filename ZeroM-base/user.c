@@ -15,7 +15,8 @@
 #include "hooks.h"
 #include "patches.h"
 
-const int ZEROM_VERSION = 15;
+const uint32_t ZEROM_VERSION = 15;
+uint32_t GetVersion(){ return ZEROM_VERSION; }
 
 
 

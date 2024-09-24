@@ -12,6 +12,7 @@
         "version.h": "c",
         "player.h": "c",
         "stdlib.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "ctrl.h": "c"
     }
 }
