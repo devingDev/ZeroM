@@ -13,6 +13,14 @@
         "player.h": "c",
         "stdlib.h": "c",
         "stdbool.h": "c",
-        "ctrl.h": "c"
+        "ctrl.h": "c",
+        "pluginreload.h": "c",
+        "array": "c",
+        "bitset": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "ranges": "c",
+        "utility": "c",
+        "*.ipp": "c"
     }
 }

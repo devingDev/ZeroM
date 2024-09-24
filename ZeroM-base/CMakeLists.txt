@@ -16,6 +16,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions")
 
 include_directories(
   ./
+  ../common/
 )
 
 link_directories(
@@ -39,6 +40,14 @@ add_executable(user
   menu.c
 )
 
+set(LIB PluginReload_stub_weak)
+set(LIB_FILE "lib${LIB}.a")
+add_library("${LIB}" STATIC IMPORTED GLOBAL)
+add_dependencies("${LIB}" stubs)
+set_target_properties("${LIB}" PROPERTIES
+  IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/../PluginReload/build/stubs/${LIB_FILE}"
+)
+
 
 target_link_libraries(user
   taihen_stub
@@ -53,6 +62,7 @@ target_link_libraries(user
   k
   gcc
   ScePower_stub
+  PluginReload_stub_weak
 )
 
 

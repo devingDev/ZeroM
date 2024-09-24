@@ -1,4 +1,5 @@
 #include "menu.h"
+#include "../common/pluginreload.h"
 
 
 #define SWITCH_MODE_DELAY 3000000
@@ -19,12 +20,18 @@ int fps = 0;
 int mode = INTEGER_FPS;
 uint64_t t_tick;
 
+extern bool pluginReloadLoaded;
+
 SceCtrlData pad;
 int sceDisplaySetFrameBuf_patched(const SceDisplayFrameBuf *pParam, int sync) {
 
     sceCtrlPeekBufferPositive(0, &pad, 1);
     updateFramebuf(pParam);
-	drawStringF(5, 5, "ZeroM v:%d" , ZEROM_VERSION);
+	if(pluginReloadLoaded){
+		drawStringF(5, 5, "ZeroM v:%d    PR: %d" , ZEROM_VERSION, GetPluginLoaderVersion());
+	}else{
+		drawStringF(5, 5, "ZeroM v:%d    PR:?" , ZEROM_VERSION);
+	}
 	return TAI_CONTINUE(int, display_ref, pParam, sync);
 }
 

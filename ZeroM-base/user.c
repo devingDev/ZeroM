@@ -11,9 +11,14 @@
 #include <taihen.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <psp2/vshbridge.h> 
 #include "log.h"
 #include "hooks.h"
 #include "patches.h"
+#include "structures/player.h"
+#include "../common/pluginreload.h"
+
+bool pluginReloadLoaded = false;
 
 const uint32_t ZEROM_VERSION = 15;
 uint32_t GetVersion(){ return ZEROM_VERSION; }
@@ -87,7 +92,18 @@ int module_start(SceSize argc, const void *args) {
 	memcpy(dest, src, strlen(src) + 1);
 	logInfo("memcpy : %s\n", dest);
 
-	sceKernelDelayThread(1000);
+	// search for pluginreload plugin
+	tai_module_info_t prinfo;
+	prinfo.size = sizeof(tai_module_info_t);
+	int res = taiGetModuleInfo("PluginReload", &prinfo);
+	pluginReloadLoaded = res == 0;
+	if(pluginReloadLoaded){
+		logInfo("PluginReload is running! %08X" , res);
+		logInfo("PluginReload Version: %d" , GetPluginLoaderVersion());
+	}else{
+		logInfo("PluginReload not found! %08X" , res);
+	}
+	
 	prepareHooking();
 	
 	thid = sceKernelCreateThread("ZeroM_thread", ZeroM_thread, 0x40, 0x10000, 0, 0, NULL);

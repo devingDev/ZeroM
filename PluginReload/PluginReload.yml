@@ -6,3 +6,7 @@ PluginReload:
   main:
     start: module_start
     stop: module_stop
+  libraries:
+    PluginReload:
+      functions:
+        - GetPluginLoaderVersion

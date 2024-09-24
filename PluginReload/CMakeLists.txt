@@ -11,7 +11,13 @@ endif()
 project(PluginReload)
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 
+set(ELF PluginReload.elf)
+set(SELF PluginReload.suprx)
+set(LIB PluginReload_stub)
+set(LIB_FILE "lib${LIB}.a")
+
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,-q -Wall -fshort-wchar -O3 -std=gnu99")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -nostdlib")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions")
 
 include_directories(
@@ -27,11 +33,15 @@ endif()
 
 # Builds
 
-add_executable(user
-  user.c
+add_executable("${ELF}"
+  main.c
 )
 
-target_link_libraries(user
+target_include_directories("${ELF}"
+  PRIVATE "../include"
+)
+
+target_link_libraries("${ELF}"
   taihen_stub
   SceLibKernel_stub
   SceIofilemgr_stub
@@ -39,18 +49,28 @@ target_link_libraries(user
   SceRegistryMgr_stub
   ScePower_stub
   SceVshBridge_stub
-  SceModulemgrForKernel_stub 
   SceKernelModulemgr_stub
   SceKernelThreadMgr_stub
   SceCtrl_stub
 )
 
-set_target_properties(user
-  PROPERTIES LINK_FLAGS "-nostdlib"
-)
 
-vita_create_self(PluginReload.suprx user
+vita_create_self("${SELF}"
+  "${ELF}"
+  CONFIG ${CMAKE_SOURCE_DIR}/PluginReload.yml
   UNSAFE
-  CONFIG ${CMAKE_SOURCE_DIR}/user.yml
 )
 
+vita_create_stubs(stubs
+  "${ELF}"
+  PluginReload.yml
+  KERNEL
+)
+
+add_library("${LIB}" STATIC IMPORTED GLOBAL)
+
+add_dependencies("${LIB}" stubs)
+
+set_target_properties("${LIB}" PROPERTIES
+  IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/stubs/${LIB_FILE}"
+)

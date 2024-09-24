@@ -14,8 +14,8 @@
 #include <taihen.h>
 #include <stdbool.h>
 
-const uint32_t PLUGINLOADER_VERSION = 10;
-uint32_t GetVersion(){ return PLUGINLOADER_VERSION; }
+const uint32_t PLUGINLOADER_VERSION = 12;
+__attribute__((weak)) uint32_t GetPluginLoaderVersion(){ return PLUGINLOADER_VERSION; }
 
 void load_ZeroM();
 void unload_ZeroM();
