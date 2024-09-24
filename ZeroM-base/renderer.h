@@ -18,6 +18,7 @@
  
 #ifndef _RENDERER_H_
 #define _RENDERER_H_
+#include <stdbool.h>
 
 void updateFramebuf(const SceDisplayFrameBuf *param);
 void drawCharacter(int character, int x, int y);
@@ -26,5 +27,7 @@ void drawStringF(int x, int y, const char *format, ...);
 void setTextColor(uint32_t clr);
 
 uint32_t hsvToRgb(float H, float S, float V);
+
+extern bool activeMenu;
 
 #endif

@@ -20,17 +20,19 @@ int fps = 0;
 int mode = INTEGER_FPS;
 uint64_t t_tick;
 
-extern bool pluginReloadLoaded;
 
-SceCtrlData pad;
+SceCtrlData current_pad;
+SceCtrlData emptyPad;
 int sceDisplaySetFrameBuf_patched(const SceDisplayFrameBuf *pParam, int sync) {
 
-    sceCtrlPeekBufferPositive(0, &pad, 1);
-    updateFramebuf(pParam);
-	if(pluginReloadLoaded){
-		drawStringF(5, 5, "ZeroM v:%d    PR: %d" , ZEROM_VERSION, GetPluginLoaderVersion());
-	}else{
-		drawStringF(5, 5, "ZeroM v:%d    PR:?" , ZEROM_VERSION);
+    //sceCtrlPeekBufferPositive(0, &pad, 1);
+	if(activeMenu){
+		updateFramebuf(pParam);
+		if(pluginReloadLoaded){
+			drawStringF(5, 5, "ZeroM v:%d    PR: %d" , ZEROM_VERSION, GetPluginLoaderVersion());
+		}else{
+			drawStringF(5, 5, "ZeroM v:%d    PR:?" , ZEROM_VERSION);
+		}
 	}
 	return TAI_CONTINUE(int, display_ref, pParam, sync);
 }
@@ -45,15 +47,49 @@ int sceDisplaySetFrameBuf_30fps(const SceDisplayFrameBuf *pParam, int sync) {
 	return ret;
 }
 
+static SceUID ctrlPeek1_hook;
+static tai_hook_ref_t ctrlPeek1_ref;
+int ctrlPeek1_patched(int port, SceCtrlData *pad_data, int count) {
+	int ret = TAI_CONTINUE(int, ctrlPeek1_ref, port, pad_data, count);
+	memcpy(&current_pad, pad_data, sizeof(SceCtrlData));
+	if(activeMenu){
+		memcpy(pad_data, &emptyPad, sizeof(SceCtrlData));
+	}
+	return ret;
+}
+
+static SceUID ctrlPeek2_hook;
+static tai_hook_ref_t ctrlPeek2_ref;
+int ctrlPeek2_patched(int port, SceCtrlData *pad_data, int count) {
+	int ret = TAI_CONTINUE(int, ctrlPeek2_ref, port, pad_data, count);
+	memcpy(&current_pad, pad_data, sizeof(SceCtrlData));
+	if(activeMenu){
+		memcpy(pad_data, &emptyPad, sizeof(SceCtrlData));
+	}
+	return ret;
+}
+
+void SetupEmptyPad(){
+	emptyPad.lx = 127;
+	emptyPad.ly = 127;
+	emptyPad.rx = 127;
+	emptyPad.ry = 127;
+}
+
 void menu_draw_hook(){
 	logInfo("Menu hooks!");
+	SetupEmptyPad();
 	display_hook = taiHookFunctionImport(&display_ref, TAI_MAIN_MODULE, TAI_ANY_LIBRARY, 0x7A410B64, sceDisplaySetFrameBuf_patched);
+	ctrlPeek1_hook = taiHookFunctionImport(&ctrlPeek1_ref, TAI_MAIN_MODULE, TAI_ANY_LIBRARY, 0xA9C3CED6, ctrlPeek1_patched);
+	//ctrlPeek2_hook = taiHookFunctionImport(&ctrlPeek2_ref, TAI_MAIN_MODULE, TAI_ANY_LIBRARY, 0x15F81E8C, ctrlPeek2_patched);
 	//sceDisplaySetFrameBuf_30fps_hook = taiHookFunctionImport(&sceDisplaySetFrameBuf_30fps_ref, TAI_MAIN_MODULE, TAI_ANY_LIBRARY, 0x7A410B64, sceDisplaySetFrameBuf_30fps);
 	logInfo("Menu hooks done!");
 }
 void menu_draw_release_hook(){
 	logInfo("Removing menu hooks!");
 	taiHookRelease(display_hook, display_ref);
+	taiHookRelease(ctrlPeek1_hook, ctrlPeek1_ref);
+	//taiHookRelease(ctrlPeek2_hook, ctrlPeek2_patched);
 	//taiHookRelease(sceDisplaySetFrameBuf_30fps_hook, sceDisplaySetFrameBuf_30fps_ref);
 	logInfo("Removed menu hooks!");
 }

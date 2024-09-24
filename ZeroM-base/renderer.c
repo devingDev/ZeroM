@@ -25,15 +25,16 @@
 #include "renderer.h"
 #include <stdbool.h>
 
+bool activeMenu = true;
 unsigned int* vram32;
 int pwidth, pheight, bufferwidth;
-uint32_t color;
+uint32_t color = 0x00FFFFFF;
 float ch = 0;
 float startCh = 0;
 int rgbMode = 0;
 bool backgroundMode = 0;
 const uint32_t BG_COLOR = 0xFF000000;
-const char transp = 0x34;
+const unsigned char transp = 0x9A;
 
 void updateFramebuf(const SceDisplayFrameBuf *param){
 	pwidth = param->width;
@@ -47,7 +48,7 @@ void setTextColor(uint32_t clr){
 }
 
 void resetRgbText(){
-	if(rgbMode == 0){
+	if(rgbMode == 1){
 		ch = startCh;
 		startCh++;
 		if(startCh > 360){
@@ -74,7 +75,9 @@ void drawCharacter(int character, int x, int y){
 
         uint8_t charPos = font[character * 10 + yy];
         for (int xx = 7; xx >= 2; xx--) {
-			rgbColorText();
+			if(rgbMode == 1){
+				rgbColorText();
+			}
 			uint32_t clr = ((charPos >> xx) & 1) ? color : BG_COLOR;
 			if(clr == BG_COLOR){
 				if(backgroundMode == 0){

@@ -15,6 +15,7 @@
 #include "log.h"
 #include "hooks.h"
 #include "patches.h"
+#include "menu.h"
 #include "structures/player.h"
 #include "../common/pluginreload.h"
 
@@ -27,27 +28,31 @@ uint32_t GetVersion(){ return ZEROM_VERSION; }
 
 int run = 1;
 SceUID thid = -1;
-SceCtrlData ctrlData;
 int ZeroM_thread(unsigned int args, void* argp){
 	logInfo("ZeroM_thread started");
 	while (run == 1)
 	{
-		sceCtrlPeekBufferPositive(0, &ctrlData, 1);
-		if(ctrlData.buttons & SCE_CTRL_CIRCLE){
-			if(ctrlData.buttons & SCE_CTRL_UP){
+		if(current_pad.buttons & SCE_CTRL_LTRIGGER){
+			if(current_pad.buttons & SCE_CTRL_SELECT){
+				activeMenu = !activeMenu;
+				sceKernelDelayThread(500*1000);
+			}
+		}
+		if(current_pad.buttons & SCE_CTRL_CIRCLE){
+			if(current_pad.buttons & SCE_CTRL_UP){
 				logPlayerInfo(player, playerAdd);
 				
 				sceKernelDelayThread(500*1000);
 			}
 
-			if(ctrlData.buttons & SCE_CTRL_RIGHT){
+			if(current_pad.buttons & SCE_CTRL_RIGHT){
 				logInfo("\n\n=====[DUMP BEGIN]=====");
 				print_bytes((void*)player, 0xA90);
 				logInfo("\n=====[DUMP END]=====\n\n");
 
 			}
 
-			if(ctrlData.buttons & SCE_CTRL_LEFT){
+			if(current_pad.buttons & SCE_CTRL_LEFT){
 				/*if(activeMenu == 0){
 					activeMenu = 1;
 				}
@@ -60,7 +65,7 @@ int ZeroM_thread(unsigned int args, void* argp){
 			
 					
 			
-			if(ctrlData.buttons & SCE_CTRL_DOWN){
+			if(current_pad.buttons & SCE_CTRL_DOWN){
 				//int num = 0;
 				//sceKernelGetRandomNumber(&num, 4);
 				//float angle = num % 180;
@@ -125,9 +130,9 @@ int module_start(SceSize argc, const void *args) {
 int module_stop(SceSize argc, const void *args) 
 {
 	logInfo("Stopping ZeroM!");
+	menu_draw_release_hook();
 	
 	unhook();
-	menu_draw_release_hook();
 	run = 0;
 	sceKernelWaitThreadEnd(thid, NULL, NULL);
 	

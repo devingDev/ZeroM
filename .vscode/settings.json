@@ -21,6 +21,10 @@
         "initializer_list": "c",
         "ranges": "c",
         "utility": "c",
-        "*.ipp": "c"
+        "*.ipp": "c",
+        "*.tcc": "c",
+        "streambuf": "c",
+        "display.h": "c",
+        "power.h": "c"
     }
 }

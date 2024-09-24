@@ -12,5 +12,7 @@
 
 void menu_draw_hook();
 void menu_draw_release_hook();
+extern bool pluginReloadLoaded;
+extern SceCtrlData current_pad;
 
 #endif
