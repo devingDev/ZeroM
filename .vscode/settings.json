@@ -30,6 +30,9 @@
         "cstddef": "c",
         "navigation.h": "c",
         "build_utils.h": "c",
-        "taihen.h": "c"
+        "taihen.h": "c",
+        "stdarg.h": "c",
+        "clib.h": "c",
+        "valarray": "c"
     }
 }

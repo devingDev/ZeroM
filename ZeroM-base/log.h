@@ -2,12 +2,8 @@
 #define LOG_H
 #include <string.h>
 #include <stdbool.h>
-#include <stdlib.h>  // For malloc and free
-#include <stdio.h>   // For printf
-#include <stdarg.h>
 #include <psp2/kernel/clib.h> 
 #include <vitasdk.h>
-#include <psp2/paf/misc.h> 
 #include "version.h"
 
 

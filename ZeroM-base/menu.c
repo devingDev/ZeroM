@@ -23,7 +23,9 @@ int mode = INTEGER_FPS;
 uint64_t t_tick;
 Menu menu;
 
-
+Menu* GetMenuPointer(){
+	return &menu;
+}
 
 int sceDisplaySetFrameBuf_patched(const SceDisplayFrameBuf *pParam, int sync) {
 
@@ -31,10 +33,12 @@ int sceDisplaySetFrameBuf_patched(const SceDisplayFrameBuf *pParam, int sync) {
 	if(activeMenu){
 		updateFramebuf(pParam);
 		if(pluginReloadLoaded){
-			drawStringF(5, 5, "ZeroM v:%d    PR: %d" , ZEROM_VERSION, GetPluginLoaderVersion());
+			drawStringF(5, 5, "  ZeroM v:%d    PR:%d   made by Bizzy  " , ZEROM_VERSION, GetPluginLoaderVersion());
 		}else{
-			drawStringF(5, 5, "ZeroM v:%d    PR:?" , ZEROM_VERSION);
+			drawStringF(5, 5, "  ZeroM v:%d    PR:?   made by Bizzy  " , ZEROM_VERSION);
 		}
+
+		drawString(5, 25, " L+Select: Toggle menu; L/R: switch tabs ");
 
 		display_menu(&menu);
 	}
@@ -58,18 +62,27 @@ void SetupMenu(Menu* m){
 	m->tab_count = 0;
 	m->current_shown_tab = 0;
 
-    add_tab(&menu, "Info");
-    add_tab(&menu, "Mods");
-    add_tab(&menu, "Settings");
+    add_tab(m, "Info");
+    add_tab(m, "Mods");
+    add_tab(m, "Settings");
+    add_tab(m, "Credits");
 
-    add_entry_to_tab(&menu, "Info", "CPU");
-    add_entry_to_tab(&menu, "Info", "GPU");
-    add_entry_to_tab(&menu, "Info", "SSD");
-    add_entry_to_tab(&menu, "Info", "MACADDRESS");
-    add_entry_to_tab(&menu, "Mods", "nudestealer");
-    add_entry_to_tab(&menu, "Mods", "INSTALL HARRYPOTTER.VPK");
-    add_entry_to_tab(&menu, "Settings", "Rainbow Mode");
-    add_entry_to_tab(&menu, "Settings", "Exit");
+    add_entry_to_tab(m, "Info", "CPU\0");
+    add_entry_to_tab(m, "Info", "GPU");
+    add_entry_to_tab(m, "Info", "SSD");
+    add_entry_to_tab(m, "Info", "MACADDRESS");
+    add_entry_to_tab(m, "Mods", "nudestealer");
+    add_entry_to_tab(m, "Mods", "INSTALL HARRYPOTTER.VPK");
+    add_entry_to_tab_with_function(m, "Settings", "Rainbow Mode", toggleRGBMode);
+    add_entry_to_tab(m, "Settings", "Exit");
+
+    add_entry_to_tab(m, "Credits", "Many thanks to everyone who helped!");
+    add_entry_to_tab(m, "Credits", "Cat(isage)");
+    add_entry_to_tab(m, "Credits", "CreepNT");
+    add_entry_to_tab(m, "Credits", "Kuria");
+    add_entry_to_tab(m, "Credits", "PrincessOfSleeping");
+    add_entry_to_tab(m, "Credits", "everyone in the community!");
+    add_entry_to_tab(m, "Credits", "MPVolta coming 2025 Spring");
 }
 
 
@@ -77,7 +90,7 @@ void SetupMenu(Menu* m){
 
 void menu_draw_hooks(){
 	logInfo("Menu hooks!");
-	SetupMenu(&menu);
+	SetupMenu(GetMenuPointer());
 	display_hook = taiHookFunctionImport(&display_ref, TAI_MAIN_MODULE, TAI_ANY_LIBRARY, 0x7A410B64, sceDisplaySetFrameBuf_patched);
 	//ctrlPeek2_hook = taiHookFunctionImport(&ctrlPeek2_ref, TAI_MAIN_MODULE, TAI_ANY_LIBRARY, 0x15F81E8C, ctrlPeek2_patched);
 	//sceDisplaySetFrameBuf_30fps_hook = taiHookFunctionImport(&sceDisplaySetFrameBuf_30fps_ref, TAI_MAIN_MODULE, TAI_ANY_LIBRARY, 0x7A410B64, sceDisplaySetFrameBuf_30fps);

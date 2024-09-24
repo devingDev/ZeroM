@@ -29,6 +29,10 @@ void setTextColor(uint32_t clr);
 
 uint32_t hsvToRgb(float H, float S, float V);
 
+void toggleRGBMode(void);
+void setTextImportant();
+void setTextUnimportant();
+
 extern bool activeMenu;
 
 #endif

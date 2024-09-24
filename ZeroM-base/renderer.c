@@ -19,11 +19,11 @@
 #include <psp2/types.h>
 #include <psp2/display.h>
 #include <libk/stdio.h>
-#include <libk/stdarg.h>
 #include <libk/string.h>
 #include "font.h"
 #include "renderer.h"
 #include <stdbool.h>
+#include "log.h"
 
 bool activeMenu = true;
 unsigned int* vram32;
@@ -34,7 +34,8 @@ float startCh = 0;
 int rgbMode = 0;
 bool backgroundMode = 0;
 const uint32_t BG_COLOR = 0xFF000000;
-const unsigned char transp = 0x9A;
+const unsigned char transp = 0xAA;
+bool importantText = false;
 
 void updateFramebuf(const SceDisplayFrameBuf *param){
 	pwidth = param->width;
@@ -45,6 +46,12 @@ void updateFramebuf(const SceDisplayFrameBuf *param){
 
 void setTextColor(uint32_t clr){
 	color = clr;
+}
+void setTextImportant(){
+	importantText = true;
+}
+void setTextUnimportant(){
+	importantText = false;
 }
 
 void resetRgbText(){
@@ -75,7 +82,7 @@ void drawCharacter(int character, int x, int y){
 
         uint8_t charPos = font[character * 10 + yy];
         for (int xx = 7; xx >= 2; xx--) {
-			if(rgbMode == 1){
+			if(!importantText && rgbMode == 1){
 				rgbColorText();
 			}
 			uint32_t clr = ((charPos >> xx) & 1) ? color : BG_COLOR;
@@ -109,7 +116,9 @@ void drawCharacter(int character, int x, int y){
 
 void drawString(int x, int y, const char *str){
 	resetRgbText();
-    for (size_t i = 0; i < sceClibStrnlen(str, 50); i++)
+	size_t stringLength = sceClibStrnlen(str, 128);
+	//logInfo("stlen : %d , %s", stringLength, str);
+    for (size_t i = 0; i < stringLength; i++)
         drawCharacter(str[i], x + i * 12, y);
 }
 
@@ -123,6 +132,14 @@ void drawStringF(int x, int y, const char *format, ...){
 	va_end(va);
 
 	drawString(x, y, str);
+}
+
+void toggleRGBMode(void){
+	if(rgbMode == 0){
+		rgbMode = 1;
+	}else if(rgbMode == 1){
+		rgbMode = 0;
+	}
 }
 
 

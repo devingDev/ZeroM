@@ -18,4 +18,6 @@ extern SceCtrlData current_pad;
 void menu_draw_hooks();
 void menu_draw_release_hooks();
 
+Menu* GetMenuPointer();
+
 #endif
