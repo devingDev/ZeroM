@@ -109,7 +109,7 @@ void drawCharacter(int character, int x, int y){
 
 void drawString(int x, int y, const char *str){
 	resetRgbText();
-    for (size_t i = 0; i < strlen(str); i++)
+    for (size_t i = 0; i < sceClibStrnlen(str, 50); i++)
         drawCharacter(str[i], x + i * 12, y);
 }
 

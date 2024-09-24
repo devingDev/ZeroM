@@ -38,6 +38,7 @@ add_executable(user
   patches.c
   renderer.c
   menu.c
+  navigation.c
 )
 
 set(LIB PluginReload_stub_weak)

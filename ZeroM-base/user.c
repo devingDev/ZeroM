@@ -16,22 +16,25 @@
 #include "hooks.h"
 #include "patches.h"
 #include "menu.h"
+#include "navigation.h"
 #include "structures/player.h"
 #include "../common/pluginreload.h"
 
+
+const uint32_t ZEROM_VERSION = 17;
+
 bool pluginReloadLoaded = false;
-
-const uint32_t ZEROM_VERSION = 15;
-uint32_t GetVersion(){ return ZEROM_VERSION; }
-
-
-
 int run = 1;
 SceUID thid = -1;
+
+uint32_t GetVersion(){ return ZEROM_VERSION; }
+
 int ZeroM_thread(unsigned int args, void* argp){
 	logInfo("ZeroM_thread started");
 	while (run == 1)
 	{
+		//doNavigation(&menu);
+
 		if(current_pad.buttons & SCE_CTRL_LTRIGGER){
 			if(current_pad.buttons & SCE_CTRL_SELECT){
 				activeMenu = !activeMenu;
@@ -121,7 +124,9 @@ int module_start(SceSize argc, const void *args) {
 	doPatches();
 	logInfo("Patched\n");
 	
-	menu_draw_hook();
+	menu_draw_hooks();
+	sceKernelDelayThread(5000);
+	navigation_hooks();
 
 	
 	return SCE_KERNEL_START_SUCCESS;
@@ -130,7 +135,8 @@ int module_start(SceSize argc, const void *args) {
 int module_stop(SceSize argc, const void *args) 
 {
 	logInfo("Stopping ZeroM!");
-	menu_draw_release_hook();
+	navigation_release_hooks();
+	menu_draw_release_hooks();
 	
 	unhook();
 	run = 0;

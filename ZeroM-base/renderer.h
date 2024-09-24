@@ -19,6 +19,7 @@
 #ifndef _RENDERER_H_
 #define _RENDERER_H_
 #include <stdbool.h>
+#include <psp2common/display.h>
 
 void updateFramebuf(const SceDisplayFrameBuf *param);
 void drawCharacter(int character, int x, int y);

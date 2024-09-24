@@ -9,10 +9,13 @@
 #include <string.h>
 #include "renderer.h"
 #include "log.h"
+#include "structures/menuitems.h"
 
-void menu_draw_hook();
-void menu_draw_release_hook();
+
 extern bool pluginReloadLoaded;
 extern SceCtrlData current_pad;
+
+void menu_draw_hooks();
+void menu_draw_release_hooks();
 
 #endif

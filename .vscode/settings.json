@@ -25,6 +25,11 @@
         "*.tcc": "c",
         "streambuf": "c",
         "display.h": "c",
-        "power.h": "c"
+        "power.h": "c",
+        "menuitems.h": "c",
+        "cstddef": "c",
+        "navigation.h": "c",
+        "build_utils.h": "c",
+        "taihen.h": "c"
     }
 }
