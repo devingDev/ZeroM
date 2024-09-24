@@ -6,15 +6,27 @@ A Minecraft (PSVita Edition) plugin that will hopefully act like a mod loader
 
 An experiment basically for now. Eventually might expand on it.
 
-IMPORTANT: PCSB00560 is the only version supported because thats the one I used.
 
 Probably have to do it for each version or have people use only one version.
 
 
 ## Getting Started
 
+IMPORTANT: You might need to install ioplus.skprx first!!!
 
-### Installing
+### Simple Install
+Add in config.txt under your minecraft title id, this is for europe:
+
+*PCSB00560
+ur0:tai/ZeroM.suprx
+
+### Usage
+[L] + [Select] : toggle menu
+Arrow keys : move in the menu
+[X]/[O] : enter/back, depending on your setting(jp?) 
+[L]/[R] : switch tabs
+
+### Installing (more in-depth)
 
 IMPORTANT: You will need to install ioplus first!!!
 
