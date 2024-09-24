@@ -15,7 +15,7 @@
 #include <stdbool.h>
 
 const uint32_t PLUGINLOADER_VERSION = 12;
-__attribute__((weak)) uint32_t GetPluginLoaderVersion(){ return PLUGINLOADER_VERSION; }
+uint32_t GetPluginLoaderVersion(){ return PLUGINLOADER_VERSION; }
 
 void load_ZeroM();
 void unload_ZeroM();

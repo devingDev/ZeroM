@@ -64,7 +64,7 @@ vita_create_self("${SELF}"
 vita_create_stubs(stubs
   "${ELF}"
   PluginReload.yml
-  KERNEL
+  USER
 )
 
 add_library("${LIB}" STATIC IMPORTED GLOBAL)
