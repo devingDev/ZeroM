@@ -80,8 +80,7 @@ int module_get_offset(int uid, int seg, uint32_t in_off, void *out_off) {
 	return 0;
 }
 
-uint64_t GetTick(){ return sceKernelGetSystemTimeWide(); }
-uint32_t swap(uint32_t in){ return __builtin_bswap32(in); }
+
 
 
 int* playerAdd;

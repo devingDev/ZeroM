@@ -29,38 +29,8 @@ int ZeroM_thread(unsigned int args, void* argp){
 		sceCtrlPeekBufferPositive(0, &ctrlData, 1);
 		if(ctrlData.buttons & SCE_CTRL_CIRCLE){
 			if(ctrlData.buttons & SCE_CTRL_UP){
-				logInfo("%llu", GetTick());
-				//print_bytes(playerAdd,0x40);
-
-				logInfo("player: %08X", (int)(int*)player);
-				logInfo("playerAdd: %08X", (int)playerAdd);
-
-				logInfo("angle1: %.4f", player->angle1);
-				logInfo("angle2: %.4f", player->angle2	);
-				logInfo("angle3: %.4f", player->angle3	);
-				logInfo("angle4: %.4f", player->angle4	);
-				logInfo("angle5: %.4f", player->angle5	);
-				logInfo("angle6: %.4f", player->angle6	);
-				logInfo("angleA: %.4f", player->angleA	);
-				logInfo("angleB: %.4f", player->angleB	);
-
-				logInfo("posx1: %.2f", player->posx1);
-				logInfo("posy1: %.2f", player->posy1);
-				logInfo("posz1: %.2f", player->posz1);
-
-				logInfo("posx2: %.2f", player->posx2);
-				logInfo("posy2: %.2f", player->posy2);
-				logInfo("posz2: %.2f", player->posz2);
-
-				logInfo("posx3: %.2f", player->posx3);
-				logInfo("posy3: %.2f", player->posy3);
-				logInfo("posz3: %.2f", player->posz3);
-
-				logInfo("0: %08X", swap(playerAdd[0x52]));
-			
-			
-				logInfo("A: %.2f|%.2f|%.2f", *(float*)&playerAdd[0x52], *(float*)&playerAdd[0x53], *(float*)&playerAdd[0x54]);
-				logInfo("B: %.2f|%.2f|%.2f", *(float*)&playerAdd[0x100], *(float*)&playerAdd[0x101], *(float*)&playerAdd[0x102]);
+				logPlayerInfo(player, playerAdd);
+				
 				sceKernelDelayThread(500*1000);
 			}
 

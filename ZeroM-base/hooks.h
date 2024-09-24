@@ -47,8 +47,7 @@ tai_hook_ref_t* add_taiHookFunctionOffset(uint32_t offset, const void * hook_fun
 
 
 int module_get_offset(int uid, int seg, uint32_t in_off, void *out_off);
-uint64_t GetTick();
-uint32_t swap(uint32_t in);
+
 
 extern int* playerAdd;
 extern Player* player;

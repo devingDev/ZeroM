@@ -23,6 +23,7 @@
 #include <libk/string.h>
 #include "font.h"
 #include "renderer.h"
+#include <stdbool.h>
 
 unsigned int* vram32;
 int pwidth, pheight, bufferwidth;
@@ -30,6 +31,9 @@ uint32_t color;
 float ch = 0;
 float startCh = 0;
 int rgbMode = 0;
+bool backgroundMode = 0;
+const uint32_t BG_COLOR = 0xFF000000;
+const char transp = 0x34;
 
 void updateFramebuf(const SceDisplayFrameBuf *param){
 	pwidth = param->width;
@@ -71,7 +75,24 @@ void drawCharacter(int character, int x, int y){
         uint8_t charPos = font[character * 10 + yy];
         for (int xx = 7; xx >= 2; xx--) {
 			rgbColorText();
-			uint32_t clr = ((charPos >> xx) & 1) ? color : 0xFF000000;
+			uint32_t clr = ((charPos >> xx) & 1) ? color : BG_COLOR;
+			if(clr == BG_COLOR){
+				if(backgroundMode == 0){
+					clr = *(screenPos);
+					unsigned char r = (clr >> 16) & 0xFF;
+					unsigned char g = (clr >> 8) & 0xFF;
+					unsigned char b = clr & 0xFF;
+
+					r = (r >= transp) ? (r - transp) : 0;
+					g = (g >= transp) ? (g - transp) : 0;
+					b = (b >= transp) ? (b - transp) : 0;
+					clr = (r << 16) | (g << 8) | b;
+				}
+				else if(backgroundMode == 1){
+					screenPos += 2;
+					continue;
+				}
+			}
 			*(screenPos) = clr;
 			*(screenPos+1) = clr;
 			*(screenPos+bufferwidth) = clr;

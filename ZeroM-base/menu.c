@@ -10,7 +10,7 @@ enum {
 	NO_FPS
 };
 
-static SceUID hook;
+static SceUID display_hook;
 static tai_hook_ref_t display_ref;
 uint64_t tick = 0;
 uint64_t switch_tick = 0;
@@ -21,20 +21,32 @@ uint64_t t_tick;
 
 SceCtrlData pad;
 int sceDisplaySetFrameBuf_patched(const SceDisplayFrameBuf *pParam, int sync) {
-    sceCtrlPeekBufferPositive(0, &pad, 1);
 
+    sceCtrlPeekBufferPositive(0, &pad, 1);
     updateFramebuf(pParam);
 	drawStringF(5, 5, "ZeroM v:%d" , ZEROM_VERSION);
-
 	return TAI_CONTINUE(int, display_ref, pParam, sync);
 }
 
 
-
+// when reloading plugin, it crashes so i removed this for now:
+static SceUID sceDisplaySetFrameBuf_30fps_hook;
+static tai_hook_ref_t sceDisplaySetFrameBuf_30fps_ref;
+int sceDisplaySetFrameBuf_30fps(const SceDisplayFrameBuf *pParam, int sync) {
+	int ret = TAI_CONTINUE(int, sceDisplaySetFrameBuf_30fps_ref, pParam, sync);
+	sceDisplayWaitVblankStartMulti(2);
+	return ret;
+}
 
 void menu_draw_hook(){
-	hook = taiHookFunctionImport(&display_ref, TAI_MAIN_MODULE, TAI_ANY_LIBRARY, 0x7A410B64, sceDisplaySetFrameBuf_patched);
+	logInfo("Menu hooks!");
+	display_hook = taiHookFunctionImport(&display_ref, TAI_MAIN_MODULE, TAI_ANY_LIBRARY, 0x7A410B64, sceDisplaySetFrameBuf_patched);
+	//sceDisplaySetFrameBuf_30fps_hook = taiHookFunctionImport(&sceDisplaySetFrameBuf_30fps_ref, TAI_MAIN_MODULE, TAI_ANY_LIBRARY, 0x7A410B64, sceDisplaySetFrameBuf_30fps);
+	logInfo("Menu hooks done!");
 }
 void menu_draw_release_hook(){
-	taiHookRelease(hook, display_ref);
+	logInfo("Removing menu hooks!");
+	taiHookRelease(display_hook, display_ref);
+	//taiHookRelease(sceDisplaySetFrameBuf_30fps_hook, sceDisplaySetFrameBuf_30fps_ref);
+	logInfo("Removed menu hooks!");
 }

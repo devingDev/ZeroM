@@ -14,7 +14,7 @@
 #include <taihen.h>
 #include <stdbool.h>
 
-const int PLUGINLOADER_VERSION = 9;
+const int PLUGINLOADER_VERSION = 10;
 
 void load_ZeroM();
 void unload_ZeroM();
@@ -39,6 +39,13 @@ int PluginLoader_thread(unsigned int args, void* argp)
 			if(ctrlData.buttons & SCE_CTRL_CIRCLE){
 				unload_ZeroM();
 				sceKernelDelayThread(100*1000); // 1000*1000 = 1 second
+				load_ZeroM();
+				sceKernelDelayThread(3*500*1000);
+			}
+			if(ctrlData.buttons & SCE_CTRL_TRIANGLE){
+				unload_ZeroM();
+				sceKernelDelayThread(3*500*1000);
+			}if(ctrlData.buttons & SCE_CTRL_SQUARE){
 				load_ZeroM();
 				sceKernelDelayThread(3*500*1000);
 			}

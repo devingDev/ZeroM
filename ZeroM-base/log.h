@@ -34,8 +34,8 @@ void print_bytes(const unsigned char* data, size_t size);
 
 void hex_dump(const char *name, int *addr, int length);
 
-size_t wcslen_custom(const wchar_t* wstr);
-char* wchar_to_char(const wchar_t* wstr);
+//size_t wcslen_custom(const wchar_t* wstr);
+//char* wchar_to_char(const wchar_t* wstr);
 
 
 #endif
