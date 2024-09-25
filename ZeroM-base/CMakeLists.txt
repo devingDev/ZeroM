@@ -39,6 +39,7 @@ add_executable(user
   renderer.c
   menu.c
   navigation.c
+  mem.c
 )
 
 set(LIB PluginReload_stub_weak)
@@ -54,6 +55,7 @@ target_link_libraries(user
   taihen_stub
   SceLibKernel_stub
   SceDisplay_stub
+  SceSysmem_stub 
   SceIofilemgr_stub
   SceRegistryMgr_stub
   SceVshBridge_stub

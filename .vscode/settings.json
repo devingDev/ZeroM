@@ -33,6 +33,9 @@
         "taihen.h": "c",
         "stdarg.h": "c",
         "clib.h": "c",
-        "valarray": "c"
+        "valarray": "c",
+        "memory.h": "c",
+        "string.h": "c",
+        "features.h": "c"
     }
 }

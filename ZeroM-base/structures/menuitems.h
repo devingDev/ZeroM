@@ -3,30 +3,31 @@
 #include <psp2/kernel/clib.h> 
 #include "renderer.h"
 #include "log.h"
+#include "mem.h"
 
 #define FONT_VERT_DIST 20
 
-#define MAX_ENTRIES_PER_TAB 10
-#define MAX_TABS 5
+#define MAX_ENTRIES_PER_TAB 100
+#define MAX_TABS 10
 #define MAX_NAME_LENGTH 128
 
 typedef void (*EntryFunction)(void);
 
 typedef struct {
-    char name[MAX_NAME_LENGTH];
+    char* name;
     EntryFunction func;
     bool enabled;
 } Entry;
 
 typedef struct {
-    char name[MAX_NAME_LENGTH];
-    Entry entries[MAX_ENTRIES_PER_TAB];
+    char* name;
+    Entry* entries;
     int entry_count; 
     int current_selected_entry;
 } Tab;
 
 typedef struct {
-    Tab tabs[MAX_TABS];
+    Tab* tabs;
     int tab_count;
     int current_shown_tab;
 } Menu;
@@ -68,64 +69,59 @@ static void change_current_entry(Menu* menu, int direction) {
 }
 
 static void add_tab(Menu* menu, const char* tab_name) {
+
     if (menu->tab_count < MAX_TABS) {
-        Tab* tab = &menu->tabs[menu->tab_count++];
-        sceClibStrncpy(tab->name, tab_name, sceClibStrnlen(tab_name,MAX_NAME_LENGTH));
+        if(menu->tabs == NULL){
+            menu->tabs = (Tab*)mem_calloc(1, sizeof(Tab));
+        }else{
+            menu->tabs = (Tab*)mem_realloc((void*)menu->tabs, sizeof(Tab) * (menu->tab_count+1));
+        }
+        
+        Tab* tab = &menu->tabs[menu->tab_count];
+        SceSize strLength = sceClibStrnlen(tab_name, MAX_NAME_LENGTH);
+        tab->name = (char*)mem_calloc(strLength+1, sizeof(char));
+        sceClibStrncpy(tab->name, tab_name, strLength);
         tab->entry_count = 0;
         tab->current_selected_entry = 0;
-    } else {
-        
+        tab->entries = NULL;
+        menu->tab_count++;
     }
 }
 
-static void add_entry_to_tab(Menu* menu, const char* tab_name, const char* entry_name) {
-    for (int i = 0; i < menu->tab_count; ++i) {
-        Tab* tab = &menu->tabs[i];
-        if (sceClibStrcmp(tab->name, tab_name) == 0) {
-            if (tab->entry_count < MAX_ENTRIES_PER_TAB) {
-                Entry* entry = &tab->entries[tab->entry_count++];
-
-                size_t entry_length = sceClibStrnlen(entry_name, MAX_NAME_LENGTH);
-                if (entry_length < MAX_NAME_LENGTH) {
-                    sceClibStrncpy(entry->name, entry_name, entry_length);
-                    entry->name[entry_length] = '\0'; 
-                } else {
-                    sceClibStrncpy(entry->name, entry_name, MAX_NAME_LENGTH - 1);
-                    entry->name[MAX_NAME_LENGTH - 1] = '\0'; 
-                }
-                entry->enabled = false;
-            } else {
-            }
-            return;
-        }
-    }
-}
 
 static void add_entry_to_tab_with_function(Menu* menu, const char* tab_name, const char* entry_name, EntryFunction func) {
     for (int i = 0; i < menu->tab_count; ++i) {
         Tab* tab = &menu->tabs[i];
         if (sceClibStrcmp(tab->name, tab_name) == 0) {
             if (tab->entry_count < MAX_ENTRIES_PER_TAB) {
-                Entry* entry = &tab->entries[tab->entry_count++];
-
-                size_t entry_length = sceClibStrnlen(entry_name, MAX_NAME_LENGTH);
-                if (entry_length < MAX_NAME_LENGTH) {
-                    sceClibStrncpy(entry->name, entry_name, entry_length);
-                    entry->name[entry_length] = '\0'; 
-                } else {
-                    sceClibStrncpy(entry->name, entry_name, MAX_NAME_LENGTH - 1);
-                    entry->name[MAX_NAME_LENGTH - 1] = '\0'; 
+                if(tab->entries == NULL){
+                    tab->entries = (Entry*)mem_calloc(1, sizeof(Entry));
+                }else{
+                    tab->entries = (Entry*)mem_realloc((void*)tab->entries, sizeof(Entry) * (tab->entry_count+1));
                 }
-                entry->func = func;
+                
+
+                Entry* entry = &tab->entries[tab->entry_count];
                 entry->enabled = false;
-            } else {
+
+                SceSize entry_length = sceClibStrnlen(entry_name, MAX_NAME_LENGTH);
+                entry->name = (char*)mem_malloc((entry_length+1)* sizeof(char));
+                sceClibStrncpy(entry->name, entry_name, entry_length);
+                entry->name[entry_length] = '\0'; 
+                entry->enabled = false;
+                entry->func = func;
+                tab->entry_count++;
             }
             return;
         }
     }
 }
+static void add_entry_to_tab(Menu* menu, const char* tab_name, const char* entry_name) {
+    add_entry_to_tab_with_function(menu, tab_name, entry_name, NULL);
+}
 
 static void display_menu(const Menu* menu) {
+
     int x = 5;
     int y = 55;
     for (int i = 0; i < menu->tab_count; ++i) {
@@ -152,6 +148,50 @@ static void display_menu(const Menu* menu) {
             setTextUnimportant();
         }
     }
+}
+
+
+
+static void setup_menu(Menu* m){
+    m->tabs = NULL;
+	m->tab_count = 0;
+	m->current_shown_tab = 0;
+
+    create_memspace(); // todo move elsewhere?
+
+    add_tab(m, "Info");
+    add_tab(m, "Mods");
+    add_tab(m, "Settings");
+
+    add_entry_to_tab(m, "Info", "Info1");
+    add_entry_to_tab(m, "Info", "Info2");
+    add_entry_to_tab(m, "Mods", "Test1");
+    add_entry_to_tab(m, "Mods", "Test2");
+    add_entry_to_tab(m, "Mods", "Test3");
+    add_entry_to_tab(m, "Mods", "Test4");
+    add_entry_to_tab_with_function(m, "Settings", "Rainbow Mode", toggleRGBMode);
+    add_entry_to_tab_with_function(m, "Settings", "Rainbow Mode", toggleRGBMode);
+    
+}
+
+static void destroy_menu(Menu* m){
+    logInfo("Destroying menu");
+    for(int i = 0; i < m->tab_count; i++){
+        Tab* t = &m->tabs[i];
+        if(t != NULL){
+            for(int j = 0; j < t->entry_count; j++){
+                Entry* e = &t->entries[j];
+                if(e != NULL){
+                    mem_free(e->name);
+                }
+            }
+            mem_free(t->name);
+            mem_free(t->entries);
+        }
+    }
+    mem_free(m->tabs);
+
+    destroy_memspace();
 }
 
 #endif
