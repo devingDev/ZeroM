@@ -1,23 +1,36 @@
 
 
 echo "[BUILD]"
-echo "ZeroM-base"
 
-cd "../ZeroM-base"
-
-echo "Recreating build directory"
+echo "vita-rss-libdl"
+cd "../vita-rss-libdl"
 rm -rf build/
 mkdir build
 cd build
-
-echo "cmake .."
 cmake ..
 if [ $? -ne 0 ]; then
-  echo "cmake failed."
+  echo "cmake vita-rss-libdl failed."
+  exit 1
+fi
+make
+if [ $? -ne 0 ]; then
+  echo "make vita-rss-libdl failed."
   exit 1
 fi
 
 
+echo "ZeroM-base"
+cd "../../ZeroM-base"
+echo "Recreating build directory"
+rm -rf build/
+mkdir build
+cd build
+echo "cmake .."
+cmake ..
+if [ $? -ne 0 ]; then
+  echo "cmake ZeroM-base failed."
+  exit 1
+fi
 echo "make"
 make
 if [ $? -ne 0 ]; then

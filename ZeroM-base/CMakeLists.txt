@@ -16,7 +16,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions")
 
 include_directories(
   ./
-  ../common/
+  "${CMAKE_CURRENT_SOURCE_DIR}/../common/"
+  "${CMAKE_CURRENT_SOURCE_DIR/sample/plugin/src/"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../vita-rss-libdl/include/"
+  
 )
 
 link_directories(
@@ -52,6 +55,7 @@ set_target_properties("${LIB}" PROPERTIES
 
 
 target_link_libraries(user
+  "${CMAKE_CURRENT_SOURCE_DIR}/../vita-rss-libdl/build/libdl.a"
   taihen_stub
   SceLibKernel_stub
   SceDisplay_stub

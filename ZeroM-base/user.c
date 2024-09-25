@@ -18,7 +18,8 @@
 #include "menu.h"
 #include "navigation.h"
 #include "structures/player.h"
-#include "../common/pluginreload.h"
+#include "pluginreload.h"
+#include "gaemmod.h"
 
 
 const uint32_t ZEROM_VERSION = 17;

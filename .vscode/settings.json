@@ -36,6 +36,9 @@
         "valarray": "c",
         "memory.h": "c",
         "string.h": "c",
-        "features.h": "c"
+        "features.h": "c",
+        "gamemod.h": "c",
+        "gamemodinfo.h": "c",
+        "stdint.h": "c"
     }
 }
