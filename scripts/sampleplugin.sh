@@ -25,3 +25,13 @@ fi
 
 echo "Build done."
 
+lftp -u anonymous,anonymous ftp://192.168.178.32:1337 <<EOF
+
+cd ux0:/zerom
+
+put ./gamemod.suprx
+
+bye
+
+EOF
+

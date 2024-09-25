@@ -1,5 +1,8 @@
 
 
+# should fix: relying on the stub, what if someone doesnt need it?
+sh plugin_reload_build.sh
+
 echo "[BUILD]"
 
 echo "vita-rss-libdl"

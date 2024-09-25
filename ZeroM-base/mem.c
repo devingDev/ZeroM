@@ -23,17 +23,22 @@ void *vita_mem_alloc(unsigned int type, unsigned int size, unsigned int alignmen
     return mem;
 }
 
+void vita_mem_free(SceUID mem){
+    sceKernelFreeMemBlock(mem);
+}
+
 
 const uint32_t DEFAULT_SIZE = 2 * 1024 * 1024;
 void* memblock;
+SceUID memId;
 SceClibMspace mspace;
 void create_memspace(){
-    SceUID memId;
-    memblock = vita_mem_alloc(SCE_KERNEL_MEMBLOCK_TYPE_USER_RW, DEFAULT_SIZE, sizeof(void *), &memId);
+    memblock = vita_mem_alloc(SCE_KERNEL_MEMBLOCK_TYPE_USER_MAIN_RW, DEFAULT_SIZE, sizeof(void *), &memId);
     mspace = sceClibMspaceCreate(memblock, DEFAULT_SIZE);
 }
 void destroy_memspace(){
     sceClibMspaceDestroy(mspace);
+    vita_mem_free(memId);
 }
 
 void* malloc(SceSize size){

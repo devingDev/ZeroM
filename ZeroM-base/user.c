@@ -93,6 +93,7 @@ int ZeroM_thread(unsigned int args, void* argp){
 
 void* gameModHandle;
 GameMod* (*getGameMod)(void);
+ZeroMData zeroMData;
 void testLoadGameMod(){
 	logInfo("Trying to open lib\n");
 	gameModHandle = dlopen("ux0:/zerom/gamemod.suprx",0);
@@ -105,8 +106,11 @@ void testLoadGameMod(){
 	if(getGameMod == NULL){
 		return;
 	}
-	getGameMod()->startFunction();
+	GameMod* loadedMod = getGameMod();
+	logInfo("called getGameMod: 0x%08x\n", loadedMod);
+	loadedMod->startFunction(&zeroMData);
 	logInfo("called start function: 0x%08x\n", getGameMod()->startFunction);
+    add_mod_entry(getGameMod());
 }
 void testUnloadGameMod(){
   dlclose(gameModHandle);
@@ -169,5 +173,6 @@ int module_stop(SceSize argc, const void *args)
 	run = 0;
 	sceKernelWaitThreadEnd(thid, NULL, NULL);
 	testUnloadGameMod();
+	menu_end();
 	return SCE_KERNEL_STOP_SUCCESS;
 }

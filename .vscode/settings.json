@@ -41,6 +41,12 @@
         "gamemodinfo.h": "c",
         "stdint.h": "c",
         "mem.h": "c",
-        "hash.h": "c"
+        "hash.h": "c",
+        "modulemgr.h": "c",
+        "sysmem.h": "c",
+        "processmgr.h": "c",
+        "ratio": "c",
+        "typeindex": "c",
+        "typeinfo": "c"
     }
 }

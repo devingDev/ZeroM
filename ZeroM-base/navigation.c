@@ -47,7 +47,7 @@ void doNavigation(Menu* menu){
     if(current_pad.buttons & SCE_CTRL_LTRIGGER){
         if(!pressedL){
             pressedL = true;
-            change_current_tab(menu, -1);
+            change_current_tab(-1);
         }
     }else{
         pressedL = false;
@@ -55,7 +55,7 @@ void doNavigation(Menu* menu){
     if(current_pad.buttons & SCE_CTRL_RTRIGGER){
         if(!pressedR){
             pressedR = true;
-            change_current_tab(menu, 1);
+            change_current_tab(1);
         }
     }else{
         pressedR = false;
@@ -63,7 +63,7 @@ void doNavigation(Menu* menu){
     if(current_pad.buttons & SCE_CTRL_UP){
         if(!pressedUp){
             pressedUp = true;
-            change_current_entry(menu, -1);
+            change_current_entry(-1);
         }
     }else{
         pressedUp = false;
@@ -71,7 +71,7 @@ void doNavigation(Menu* menu){
     if(current_pad.buttons & SCE_CTRL_DOWN){
         if(!pressedDown){
             pressedDown = true;
-            change_current_entry(menu, 1);
+            change_current_entry(1);
         }
     }else{
         pressedDown = false;
@@ -89,6 +89,7 @@ void doNavigation(Menu* menu){
         if(!pressedAbort){
             pressedAbort = true;
             logInfo("abort");
+            menu_go_back();
         }
     }else{
         pressedAbort = false;

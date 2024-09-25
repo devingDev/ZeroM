@@ -15,6 +15,14 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,-q -Wall -O3 -nostdlib -std=c99 -fno-str
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti -fno-exceptions -nostdlib -std=c++17 -fno-strict-aliasing")
 
 
+include_directories(
+  ./
+  ./src
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../"
+  "${CMAKE_CURRENT_SOURCE_DIR}/../../structures/"
+  
+)
+
 add_executable(${PROJECT_NAME}
   src/main.c
   src/gamemod.c
