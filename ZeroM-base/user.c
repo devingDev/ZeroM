@@ -19,7 +19,8 @@
 #include "navigation.h"
 #include "structures/player.h"
 #include "pluginreload.h"
-#include "gaemmod.h"
+#include "gamemod.h"
+#include <dlfcn.h>
 
 
 const uint32_t ZEROM_VERSION = 17;
@@ -90,6 +91,26 @@ int ZeroM_thread(unsigned int args, void* argp){
 	return 0;
 }
 
+void* gameModHandle;
+GameMod* (*getGameMod)(void);
+void testLoadGameMod(){
+	logInfo("Trying to open lib\n");
+	gameModHandle = dlopen("ux0:/zerom/gamemod.suprx",0);
+	logInfo("loaded lib: 0x%08x\n", gameModHandle);
+	if(gameModHandle == NULL){
+		return;
+	}
+	getGameMod = dlsym(gameModHandle, "getGameMod");
+	logInfo("got getGameMod function: 0x%08x\n", getGameMod);
+	if(getGameMod == NULL){
+		return;
+	}
+	getGameMod()->startFunction();
+	logInfo("called start function: 0x%08x\n", getGameMod()->startFunction);
+}
+void testUnloadGameMod(){
+  dlclose(gameModHandle);
+}
 
 void _start() __attribute__((weak, alias("module_start")));
 int module_start(SceSize argc, const void *args) {
@@ -126,9 +147,14 @@ int module_start(SceSize argc, const void *args) {
 	logInfo("Patched\n");
 	
 	menu_draw_hooks();
+	logInfo("Menu Draw hooked\n");
 	sceKernelDelayThread(5000);
 	navigation_hooks();
+	logInfo("Navigation hooked\n");
 
+	logInfo("testLoadGameMod start\n");
+	testLoadGameMod();
+	logInfo("testLoadGameMod end\n");
 	
 	return SCE_KERNEL_START_SUCCESS;
 }
@@ -142,6 +168,6 @@ int module_stop(SceSize argc, const void *args)
 	unhook();
 	run = 0;
 	sceKernelWaitThreadEnd(thid, NULL, NULL);
-	
+	testUnloadGameMod();
 	return SCE_KERNEL_STOP_SUCCESS;
 }

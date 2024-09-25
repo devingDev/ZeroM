@@ -36,15 +36,24 @@ void destroy_memspace(){
     sceClibMspaceDestroy(mspace);
 }
 
-void* mem_malloc(SceSize size){
+void* malloc(SceSize size){
     return sceClibMspaceMalloc(mspace, size);
 }
-void* mem_calloc(SceSize num, SceSize size){
+void* calloc(SceSize num, SceSize size){
     return sceClibMspaceCalloc(mspace, num, size);
 }
-void* mem_realloc(void* oldMemPtr, SceSize size){
+void* realloc(void* oldMemPtr, SceSize size){
     return sceClibMspaceRealloc(mspace, oldMemPtr, size);
 }
-void mem_free(void* memPtr){
+void free(void* memPtr){
     sceClibMspaceFree(mspace, memPtr);
+}
+char* realpath(const char *restrict file_name, char *restrict resolved_name){
+    SceSize strlength = sceClibStrnlen(file_name, 512);
+    sceClibStrncpy(resolved_name, file_name, strlength);
+    resolved_name[strlength] = '\0';
+    return resolved_name;
+}
+int *__errno (void){
+    return 0;
 }

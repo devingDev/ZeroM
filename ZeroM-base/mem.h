@@ -11,9 +11,10 @@ void *vita_mem_alloc(unsigned int type, unsigned int size, unsigned int alignmen
 extern void* memblock;
 void create_memspace();
 void destroy_memspace();
-void* mem_malloc(SceSize size);
-void* mem_calloc(SceSize num, SceSize size);
-void* mem_realloc(void* oldMemPtr, SceSize size);
-void mem_free(void* memPtr);
-
+void* malloc(SceSize size);
+void* calloc(SceSize num, SceSize size);
+void* realloc(void* oldMemPtr, SceSize size);
+void free(void* memPtr);
+char* realpath(const char *restrict file_name, char *restrict resolved_name);
+int *__errno (void);
 #endif

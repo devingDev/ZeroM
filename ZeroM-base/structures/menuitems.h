@@ -72,14 +72,14 @@ static void add_tab(Menu* menu, const char* tab_name) {
 
     if (menu->tab_count < MAX_TABS) {
         if(menu->tabs == NULL){
-            menu->tabs = (Tab*)mem_calloc(1, sizeof(Tab));
+            menu->tabs = (Tab*)calloc(1, sizeof(Tab));
         }else{
-            menu->tabs = (Tab*)mem_realloc((void*)menu->tabs, sizeof(Tab) * (menu->tab_count+1));
+            menu->tabs = (Tab*)realloc((void*)menu->tabs, sizeof(Tab) * (menu->tab_count+1));
         }
         
         Tab* tab = &menu->tabs[menu->tab_count];
         SceSize strLength = sceClibStrnlen(tab_name, MAX_NAME_LENGTH);
-        tab->name = (char*)mem_calloc(strLength+1, sizeof(char));
+        tab->name = (char*)calloc(strLength+1, sizeof(char));
         sceClibStrncpy(tab->name, tab_name, strLength);
         tab->entry_count = 0;
         tab->current_selected_entry = 0;
@@ -95,9 +95,9 @@ static void add_entry_to_tab_with_function(Menu* menu, const char* tab_name, con
         if (sceClibStrcmp(tab->name, tab_name) == 0) {
             if (tab->entry_count < MAX_ENTRIES_PER_TAB) {
                 if(tab->entries == NULL){
-                    tab->entries = (Entry*)mem_calloc(1, sizeof(Entry));
+                    tab->entries = (Entry*)calloc(1, sizeof(Entry));
                 }else{
-                    tab->entries = (Entry*)mem_realloc((void*)tab->entries, sizeof(Entry) * (tab->entry_count+1));
+                    tab->entries = (Entry*)realloc((void*)tab->entries, sizeof(Entry) * (tab->entry_count+1));
                 }
                 
 
@@ -105,7 +105,7 @@ static void add_entry_to_tab_with_function(Menu* menu, const char* tab_name, con
                 entry->enabled = false;
 
                 SceSize entry_length = sceClibStrnlen(entry_name, MAX_NAME_LENGTH);
-                entry->name = (char*)mem_malloc((entry_length+1)* sizeof(char));
+                entry->name = (char*)malloc((entry_length+1)* sizeof(char));
                 sceClibStrncpy(entry->name, entry_name, entry_length);
                 entry->name[entry_length] = '\0'; 
                 entry->enabled = false;
@@ -182,14 +182,14 @@ static void destroy_menu(Menu* m){
             for(int j = 0; j < t->entry_count; j++){
                 Entry* e = &t->entries[j];
                 if(e != NULL){
-                    mem_free(e->name);
+                    free(e->name);
                 }
             }
-            mem_free(t->name);
-            mem_free(t->entries);
+            free(t->name);
+            free(t->entries);
         }
     }
-    mem_free(m->tabs);
+    free(m->tabs);
 
     destroy_memspace();
 }
