@@ -39,6 +39,8 @@
         "features.h": "c",
         "gamemod.h": "c",
         "gamemodinfo.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "mem.h": "c",
+        "hash.h": "c"
     }
 }

@@ -43,6 +43,7 @@ add_executable(user
   menu.c
   navigation.c
   mem.c
+  hash.c
 )
 
 set(LIB PluginReload_stub_weak)
@@ -55,7 +56,8 @@ set_target_properties("${LIB}" PROPERTIES
 
 
 target_link_libraries(user
-  "${CMAKE_CURRENT_SOURCE_DIR}/../vita-rss-libdl/build/libdl.a"
+  #"${CMAKE_CURRENT_SOURCE_DIR}/../vita-rss-libdl/build/libdl.a"
+  dl
   taihen_stub
   SceLibKernel_stub
   SceDisplay_stub
@@ -65,13 +67,13 @@ target_link_libraries(user
   SceVshBridge_stub
   SceKernelThreadMgr_stub 
   SceKernelModulemgr_stub 
-  SceSblSsMgr_stub
+#  SceSblSsMgr_stub
   SceCtrl_stub
   k
   gcc
   ScePower_stub
   PluginReload_stub_weak
-  dl
+  
 )
 
 set_target_properties(user
