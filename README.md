@@ -95,3 +95,13 @@ Just look inside them, they are rather simple.
 Use the issues page for problems
 
 [ZeroM Discord Invite](https://discord.gg/GJAhrUsAeg) if you want to contact me on Discord.
+
+# Credits
+
+Everyone who helped me: Thank you!
+
+くりあ, isage, Princess-of-Sleeping, CreepNT
+
+also thanks to sources like m9kvita cheat menu and framecounter for drawing hook source
+
+if I forgot you it's probably cause I hate you (just kidding, I'm only human so tell me to add you!)
