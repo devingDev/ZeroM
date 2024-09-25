@@ -17,8 +17,17 @@ IMPORTANT: You might need to install ioplus.skprx first!!!
 ### Simple Install
 Add in config.txt under your minecraft title id, this is for europe:
 
+```
 *PCSB00560
 ur0:tai/ZeroM.suprx
+```
+
+Game mods will be placed in ux0:/zerom/
+
+for example ux0:/zerom/coolmod.suprx
+
+To make a game mod you should check out https://github.com/devingDev/ZeroM/tree/main/ZeroM-base/sample/plugin
+although it does not support much yet!
 
 ### Usage
 [L] + [Select] : toggle menu
