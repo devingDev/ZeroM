@@ -47,10 +47,12 @@ struct Player2 {
 };
 
 struct Player_vtbl { /* vtable of Player */
-    char pad00[0x100]; // 0x0
-    int (*moveTo)(int* player, double x, double y, double z, double angle1, double angle2); // 0x100
-    char pad01[0x200]; // 0x104
-    int (*teleportTo)(int* player, double x, double y, double z); // 0x304
+    char pad00[0x3C]; // 0x0
+    int (*kill)(Player* a1); // 0x3C , not working probably needs to be a server call?
+    char pad01[0xC0]; // 0x40
+    int (*moveTo)(Player* player, double x, double y, double z, double angle1, double angle2); // 0x100
+    char pad02[0x200]; // 0x104
+    int (*teleportTo)(Player* player, double x, double y, double z); // 0x304
 
 };
 

@@ -9,7 +9,7 @@
 // you can decide how many tabs and entries.
 // currently you kind of have to hardcode these and fillMenu() :S
 Tab tabs[3];
-Entry entriesTab1[2];
+Entry entriesTab1[3];
 Entry entriesTab2[2];
 Entry entriesTab3[1];
 
@@ -27,12 +27,16 @@ void testFunction(void* arg) {
     sceClibPrintf("Test function\n");
 }
 
-void setAngle(void* arg) {
-    sceClibPrintf("Set Angle\n");
+bool CheckPlayer(){
     if(zeroMData->Player == NULL){
         sceClibPrintf("player was null :(\n");
-        return;
+        return false;
     }
+    return true;
+}
+void setAngle(void* arg) {
+    sceClibPrintf("Set Angle\n");
+    if(!CheckPlayer()){ return; }
 
     float angle = 180.0;
     float angle2 = -15.0;
@@ -41,15 +45,18 @@ void setAngle(void* arg) {
 }
 void setPos(void* arg) {
     sceClibPrintf("Set Pos\n");
-    if(zeroMData->Player == NULL){
-        sceClibPrintf("player was null :(\n");
-        return;
-    }
+    if(!CheckPlayer()){ return; }
 
-    double posx = 200.0;
-    double posy = 75;
-    double posz = 77.0;
+
+    double posx = zeroMData->Player->posx1+5;
+    double posy = zeroMData->Player->posy1+2;
+    double posz = zeroMData->Player->posz1+15;
     zeroMData->Player->__vftable->teleportTo(zeroMData->Player, posx, posy, posz);
+}
+void kill(void* arg) {
+    sceClibPrintf("Set Pos\n");
+    if(!CheckPlayer()){ return; }
+    zeroMData->Player->__vftable->kill(zeroMData->Player);
 }
 
 void fillMenu(){
@@ -60,7 +67,9 @@ void fillMenu(){
     tabs[0].entries[0].func = setAngle;
     tabs[0].entries[1].name = "Teleport";
     tabs[0].entries[1].func = setPos;
-    tabs[0].entry_count = 2;
+    tabs[0].entries[2].name = "Kill";
+    tabs[0].entries[2].func = kill;
+    tabs[0].entry_count = 3;
 
     tabs[1].name = "Extra Settings";
     tabs[1].entries = &entriesTab2;
