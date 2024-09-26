@@ -46,12 +46,20 @@ struct Player2 {
     //unsigned char extraData[0xA8C];
 };
 
+typedef struct {
+    double x;
+    double y;
+    double z;
+} Vec3;
+
 struct Player_vtbl { /* vtable of Player */
     char pad00[0x3C]; // 0x0
     int (*kill)(Player* a1); // 0x3C , not working probably needs to be a server call?
     char pad01[0xC0]; // 0x40
     int (*moveTo)(Player* player, double x, double y, double z, double angle1, double angle2); // 0x100
-    char pad02[0x200]; // 0x104
+    char pad02[0xC4]; // 0x104
+    Vec3* (*getForward)(Player* player); // 0x1C8
+    char pad03[0x138]; // 0x1CC
     int (*teleportTo)(Player* player, double x, double y, double z); // 0x304
 
 };

@@ -43,20 +43,34 @@ void setAngle(void* arg) {
     zeroMData->Player->angle1 = angle;
     zeroMData->Player->angle2 = angle2;
 }
-void setPos(void* arg) {
+void teleportForward(void* arg) {
     sceClibPrintf("Set Pos\n");
     if(!CheckPlayer()){ return; }
 
+    Vec3* forward = zeroMData->Player->__vftable->getForward(zeroMData->Player);
 
-    double posx = zeroMData->Player->posx1+5;
-    double posy = zeroMData->Player->posy1+2;
-    double posz = zeroMData->Player->posz1+15;
-    zeroMData->Player->__vftable->teleportTo(zeroMData->Player, posx, posy, posz);
+   // int xDir = forward->x == 0 ? 0 : forward->x > 0.001 ? 1 : -1;
+  //  int yDir = forward->y == 0 ? 0 : forward->y > 0.001 ? 1 : -1;
+   // int zDir = forward->z == 0 ? 0 : forward->z > 0.001 ? 1 : -1;
+
+    double xDir = (forward->x < 0.001 && forward->x > -0.001) ? 0 : forward->x;
+    double yDir = (forward->y < 0.001 && forward->y > -0.001) ? 0 : forward->y;
+    double zDir = (forward->z < 0.001 && forward->z > -0.001) ? 0 : forward->z;
+
+    double newposx = zeroMData->Player->posx1 + (xDir * 10);
+    double newposy = zeroMData->Player->posy1 + (yDir * 1);
+    double newposz = zeroMData->Player->posz1 + (zDir * 10);
+    zeroMData->Player->__vftable->teleportTo(zeroMData->Player, newposx, newposy, newposz);
 }
-void kill(void* arg) {
-    sceClibPrintf("Set Pos\n");
+
+void testFunc(void* arg) {
+    sceClibPrintf("Test Func\n");
     if(!CheckPlayer()){ return; }
-    zeroMData->Player->__vftable->kill(zeroMData->Player);
+    Vec3* forward = zeroMData->Player->__vftable->getForward(zeroMData->Player);
+    sceClibPrintf("got fwd\n");
+    //hex_dump("test", &forward, 64);
+    sceClibPrintf("Forward: %f %f %f\n", forward->x, forward->y, forward->z);
+    sceClibPrintf("Forward: %08lX %08lX %08lX\n", forward->x, forward->y, forward->z);
 }
 
 void fillMenu(){
@@ -65,10 +79,10 @@ void fillMenu(){
     tabs[0].entries = &entriesTab1;
     tabs[0].entries[0].name = "Set Angle";
     tabs[0].entries[0].func = setAngle;
-    tabs[0].entries[1].name = "Teleport";
-    tabs[0].entries[1].func = setPos;
-    tabs[0].entries[2].name = "Kill";
-    tabs[0].entries[2].func = kill;
+    tabs[0].entries[1].name = "Teleport forward";
+    tabs[0].entries[1].func = teleportForward;
+    tabs[0].entries[2].name = "TestFunc";
+    tabs[0].entries[2].func = testFunc;
     tabs[0].entry_count = 3;
 
     tabs[1].name = "Extra Settings";
