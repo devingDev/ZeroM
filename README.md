@@ -109,7 +109,7 @@ Use the issues page for problems
 
 Everyone who helped me: Thank you!
 
-くりあ, isage, Princess-of-Sleeping, CreepNT
+くりあ, Hibiscus, isage, Princess-of-Sleeping, CreepNT
 
 also thanks to sources like m9kvita cheat menu and framecounter for drawing hook source
 
