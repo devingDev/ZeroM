@@ -1,4 +1,5 @@
 #include "hooks.h"
+#include "gamemodloader.h"
 
 
 
@@ -41,15 +42,33 @@ void prepareHooking(){
 	//int ret = module_get_offset(currentPID, info.modid, 0, 0x16f00e, &EntityTick1);
 }
 
-
+int* playerAdd;
+Player* player;
+tai_hook_ref_t* Player_new_REF;
+void Player_new(int *a, int *b,int *c){
+	logInfo("Player_new_REF begin %08X", a);
+	player = a;
+	playerAdd = a;
+	setPlayer(player);
+	TAI_NEXT(Player_new, *Player_new_REF, a, b, c);
+	logInfo("Player_new_REF end   %08X", a);
+}
+int* serverplayerAdd;
+Player* serverplayer;
+tai_hook_ref_t* ServerPlayer_new_REF;
+void ServerPlayer_new(int *a, int *b, int *c, int *d, int *e){
+	logInfo("ServerPlayer_new_REF begin %08X", a);
+	serverplayer = a;
+	serverplayerAdd = a;
+	TAI_NEXT(ServerPlayer_new, *ServerPlayer_new_REF, a, b, c, d, e);
+	logInfo("ServerPlayer_new_REF end   %08X", a);
+	return;
+}
 
 void setupHooks(){
 	logInfo("Hooking");
-
-    playerTickHookRef =  add_taiHookFunctionOffset(0x32FE14, Player_Tick_patched);
-    livingEntTickHookRef = add_taiHookFunctionOffset(0x289684, Livingent_Tick_patched);
-    createServerPlayerHookRef = add_taiHookFunctionOffset(0x83458C, CreateServerPlayer_patched);
-
+	Player_new_REF = add_taiHookFunctionOffset(0x32e5a8, Player_new);
+	ServerPlayer_new_REF = add_taiHookFunctionOffset(0x83458c, ServerPlayer_new);
     doTestHooks();
 }
 
@@ -80,28 +99,3 @@ int module_get_offset(int uid, int seg, uint32_t in_off, void *out_off) {
 	return 0;
 }
 
-
-
-
-int* playerAdd;
-Player* player = NULL;
-Player* playerCaught = NULL;
-
-void Player_Tick_patched(Player *playerF) {
-	TAI_NEXT(Player_Tick_patched, *playerTickHookRef, playerF);
-}
-
-void Livingent_Tick_patched(int *param_1) {
-	TAI_NEXT(Livingent_Tick_patched, *livingEntTickHookRef, param_1);
-}
-
-
-int  CreateServerPlayer_patched(Player* playerAllocated, int a2, int *a3, int a4, int a5){
-	player = playerAllocated;
-	//logInfo("%llu CreateServerPlayer_patched start %p %p", GetTick(), (int)(int*)playerAllocated, &playerAllocated);
-	int result = TAI_NEXT(CreateServerPlayer_patched, *createServerPlayerHookRef,playerAllocated,a2,a3,a4,a5);
-
-	//logInfo("%llu CreateServerPlayer_patched end   %p %p", GetTick(), (int)(int*)playerAllocated, &playerAllocated);
-
-	return result;
-}

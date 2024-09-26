@@ -18,7 +18,7 @@
 #include "patches.h"
 #include "menu.h"
 #include "navigation.h"
-#include "structures/player.h"
+#include "player.h"
 #include "pluginreload.h"
 #include "gamemod.h"
 #include "gamemodloader.h"
@@ -80,9 +80,24 @@ int ZeroM_thread(unsigned int args, void* argp){
 				//playerAdd[0x52]  = *(int*)&angle; // first person viewangle
 				//playerAdd[0x53]  = *(int*)&angle2; // first person viewangle
 
-				// kinda broken? :(
-				playerCaught->angle1 = angle;
-				playerCaught->angle2 = angle2;
+				player->angle1 = angle;
+				player->angle2 = angle2;
+
+				// setting position not working? maybe these are only the saved result from physics.
+				/*
+				serverplayer->posx1 = 200;
+				serverplayer->posy1 = 79;
+				serverplayer->posz1 = 76;
+				serverplayer->posx2 = 200;
+				serverplayer->posy2 = 79;
+				serverplayer->posz2 = 76;
+				serverplayer->posx3 = 200;
+				serverplayer->posy3 = 79;
+				serverplayer->posz3 = 76;
+				serverplayer->posx4 = 200;
+				serverplayer->posy4 = 79;
+				serverplayer->posz4 = 76;
+				*/
 			}
 		
 		}

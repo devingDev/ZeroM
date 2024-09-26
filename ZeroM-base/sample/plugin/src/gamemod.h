@@ -3,10 +3,11 @@
 #define GAMEMODINFO_H
 #include <stdint.h>
 #include "menuitems.h"
+#include "player.h"
 
 // you do NOT change this file for your mod!
 typedef struct {
-    void* Player; // Should hold original player struct/class pointer
+    Player* Player; // Should hold original player struct/class pointer
     void* Server; // same for server
 } ZeroMData;
 typedef struct {
@@ -24,9 +25,6 @@ typedef struct {
     StartFunction startFunction;
 } GameMod;
 
-
-extern GameModInfo gameModInfo;
-extern GameMod gameMod;
 
 
 #endif

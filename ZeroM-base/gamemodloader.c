@@ -25,6 +25,10 @@ int ends_with(const char *str, const char *suffix) {
 
 ZeroMData zeroMData;
 
+void setPlayer(Player* player){
+    zeroMData.Player = player;
+}
+
 typedef struct {
     void* handle;
     GameMod* (*getGameMod)(void);

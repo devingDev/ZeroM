@@ -9,26 +9,36 @@ typedef struct Player2 Player2, *PPlayer2;
 
 struct Player {
     struct Player_vtbl *__vftable;
-    char pad00[0xC4];
-    double posx1;
-    double posy1;
-    double posz1;
-    float angleA;
-    float angleB;
-    char pad01[0x18];
-    double posx2;
-    double posy2;
-    double posz2;
-    double posx3;
-    double posy3;
-    double posz3;
-    char pad02[0x18];
-    float angle1;
-    float angle2;
-    float angle3;
-    float angle4;
-    float angle5;
-    float angle6;
+    char pad00[0xC4]; 
+    double posx1; //0xC8
+    double posy1; //0xD0
+    double posz1; //0xD8
+    float angleA; //0xE0
+    float angleB; //0xE4
+    char pad01[0x18]; //0xE8
+    double posx2; //0x100
+    double posy2; //0x108
+    double posz2; //0x110
+    double posx3; //0x118
+    double posy3; //0x120
+    double posz3; //0x128
+    char pad02[0x18]; //0x130
+    float angle1; //0x148
+    float angle2; //0x14C
+    float angle3; //0x150
+    float angle4; //0x154
+    float angle5; //0x158
+    float angle6; //0x15C
+    char pad03[0x60]; //0x160
+    double posx4; //0x1C0
+    double posy4; //0x1C8
+    double posz4; //0x1D0
+    char pad04[0x6F0]; //0x1D8
+    double posx5; //0x8C8
+    double posy5; //0x8D0
+    double posz5; //0x8D8
+
+
 
     //unsigned char extraData[0xA8C];
 };
@@ -74,6 +84,14 @@ static void logPlayerInfo(Player* player, int* playerAdd){
     logInfo("posx3: %.2f", player->posx3);
     logInfo("posy3: %.2f", player->posy3);
     logInfo("posz3: %.2f", player->posz3);
+    
+    logInfo("posx4: %.2f", player->posx4);
+    logInfo("posy4: %.2f", player->posy4);
+    logInfo("posz4: %.2f", player->posz4);
+    
+    logInfo("posx5: %.2f", player->posx5);
+    logInfo("posy5: %.2f", player->posy5);
+    logInfo("posz5: %.2f", player->posz5);
 
     logInfo("0: %08X", swap(playerAdd[0x52]));
 

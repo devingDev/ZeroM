@@ -15,7 +15,7 @@
 #include <taihen.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include "structures/player.h"
+#include "player.h"
 #include "log.h"
 #include "testhooks.h"
 
@@ -50,11 +50,10 @@ int module_get_offset(int uid, int seg, uint32_t in_off, void *out_off);
 
 extern int* playerAdd;
 extern Player* player;
-extern Player* playerCaught;
 
-void Player_Tick_patched(Player *playerF);
-void Livingent_Tick_patched(int *param_1);
-int  CreateServerPlayer_patched(Player* playerAllocated, int a2, int *a3, int a4, int a5);
+extern int* serverplayerAdd;
+extern Player* serverplayer;
+
 
 
 
