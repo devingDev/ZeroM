@@ -47,10 +47,11 @@ struct Player2 {
 };
 
 struct Player_vtbl { /* vtable of Player */
-    char pad00[0x100];
-    int (*teleportTo__6EntityFdN21)(int*, double, double, double); // 0x100
-    void (*func1)(void*);
-    void (*func2)(void*);
+    char pad00[0x100]; // 0x0
+    int (*moveTo)(int* player, double x, double y, double z, double angle1, double angle2); // 0x100
+    char pad01[0x200]; // 0x104
+    int (*teleportTo)(int* player, double x, double y, double z); // 0x304
+
 };
 
 static void logPlayerInfo(Player* player, int* playerAdd){

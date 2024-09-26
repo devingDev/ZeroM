@@ -49,7 +49,7 @@ void setPos(void* arg) {
     double posx = 200.0;
     double posy = 75;
     double posz = 77.0;
-    zeroMData->Player->__vftable->teleportTo__6EntityFdN21(zeroMData->Player, posx, posy, posz);
+    zeroMData->Player->__vftable->teleportTo(zeroMData->Player, posx, posy, posz);
 }
 
 void fillMenu(){
