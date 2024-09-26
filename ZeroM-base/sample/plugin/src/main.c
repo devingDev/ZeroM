@@ -9,7 +9,7 @@
 // you can decide how many tabs and entries.
 // currently you kind of have to hardcode these and fillMenu() :S
 Tab tabs[3];
-Entry entriesTab1[1];
+Entry entriesTab1[2];
 Entry entriesTab2[2];
 Entry entriesTab3[1];
 
@@ -39,6 +39,18 @@ void setAngle(void* arg) {
     zeroMData->Player->angle1 = angle;
     zeroMData->Player->angle2 = angle2;
 }
+void setPos(void* arg) {
+    sceClibPrintf("Set Pos\n");
+    if(zeroMData->Player == NULL){
+        sceClibPrintf("player was null :(\n");
+        return;
+    }
+
+    double posx = 200.0;
+    double posy = 75;
+    double posz = 77.0;
+    zeroMData->Player->__vftable->teleportTo__6EntityFdN21(zeroMData->Player, posx, posy, posz);
+}
 
 void fillMenu(){
     // propagate with the necessary stuff
@@ -46,7 +58,9 @@ void fillMenu(){
     tabs[0].entries = &entriesTab1;
     tabs[0].entries[0].name = "Set Angle";
     tabs[0].entries[0].func = setAngle;
-    tabs[0].entry_count = 1;
+    tabs[0].entries[1].name = "Teleport";
+    tabs[0].entries[1].func = setPos;
+    tabs[0].entry_count = 2;
 
     tabs[1].name = "Extra Settings";
     tabs[1].entries = &entriesTab2;

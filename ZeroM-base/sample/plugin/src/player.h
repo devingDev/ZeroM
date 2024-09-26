@@ -8,7 +8,7 @@ typedef struct Player_vtbl Player_vtbl, *PPlayer_vtbl;
 typedef struct Player2 Player2, *PPlayer2;
 
 struct Player {
-    struct Player_vtbl *__vftable;
+    Player_vtbl *__vftable;
     char pad00[0xC4]; 
     double posx1; //0xC8
     double posy1; //0xD0
@@ -38,10 +38,8 @@ struct Player {
     double posy5; //0x8D0
     double posz5; //0x8D8
 
-
-
     //unsigned char extraData[0xA8C];
-};
+}; // i think this was around 0xA90 bytes?
 struct Player2 {
     unsigned char extraData[0xA90];
     //struct Player_vtbl *__vftable;
@@ -49,8 +47,10 @@ struct Player2 {
 };
 
 struct Player_vtbl { /* vtable of Player */
-    int field_0;
-    int field1_0x4;
+    char pad00[0x100];
+    int (*teleportTo__6EntityFdN21)(int*, double, double, double); // 0x100
+    void (*func1)(void*);
+    void (*func2)(void*);
 };
 
 static void logPlayerInfo(Player* player, int* playerAdd){
