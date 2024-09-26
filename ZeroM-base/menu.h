@@ -9,7 +9,7 @@
 #include <string.h>
 #include "renderer.h"
 #include "log.h"
-#include "structures/menuitems.h"
+#include "menuitems.h"
 #include "gamemod.h"
 
 

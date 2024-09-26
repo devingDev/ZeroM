@@ -5,15 +5,12 @@
 #include "gamemod.h"
 
 
-
-
-
 // you can decide how many tabs and entries.
 // currently you kind of have to hardcode these and fillMenu() :S
 Tab tabs[3];
 Entry entriesTab1[2];
 Entry entriesTab2[2];
-Entry entriesTab3[5];
+Entry entriesTab3[1];
 
 
 // this function is called after this mod was loaded in ZeroM
@@ -30,7 +27,7 @@ void testFunction(void* arg) {
 
 void fillMenu(){
     // propagate with the necessary stuff
-    tabs[0].name = "BizzyMod";
+    tabs[0].name = "Super Fun";
     tabs[0].entries = &entriesTab1;
     tabs[0].entries[0].name = "Enable X";
     tabs[0].entries[0].func = testFunction;
@@ -47,11 +44,7 @@ void fillMenu(){
     tabs[2].name = "Help";
     tabs[2].entries = &entriesTab3;
     tabs[2].entries[0].name = "discord: ki.ne";
-    tabs[2].entries[1].name = "Writing history";
-    tabs[2].entries[2].name = "since 1918";
-    tabs[2].entries[3].name = "Be careful of the";
-    tabs[2].entries[4].name = "gobbermint!";
-    tabs[2].entry_count = 5;
+    tabs[2].entry_count = 1;
 }
 
 

@@ -1,6 +1,6 @@
 #include "menu.h"
 #include "../common/pluginreload.h"
-#include "structures/menuitems.h"
+#include "menuitems.h"
 #include "navigation.h"
 #include <psp2/kernel/sysmem.h>
 
@@ -165,6 +165,7 @@ void change_current_entry(int direction) {
 }
 
 void add_mod_entry_to_mods_tab(Menu* menu, GameMod* gameMod){
+	logInfo("Adding mod tab for : %08X , %s", gameMod, gameMod->gameModInfo->modName);
     for (int i = 0; i < menu->tab_count; ++i) {
         Tab* tab = &menu->tabs[i];
         if (sceClibStrcmp(tab->name, MOD_TAB_NAME) == 0) {

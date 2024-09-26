@@ -25,9 +25,6 @@ typedef struct {
 } GameMod;
 
 
-
-
-
 extern GameModInfo gameModInfo;
 extern GameMod gameMod;
 

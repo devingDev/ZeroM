@@ -1,4 +1,4 @@
-testplug:
+mygamemod:
   attributes: 0
   version:
     major: 1
@@ -7,7 +7,7 @@ testplug:
     start: module_start
     stop: module_stop
   modules:
-    gamemod:
+    mygamemod:
       functions:
         - getGameMod
 

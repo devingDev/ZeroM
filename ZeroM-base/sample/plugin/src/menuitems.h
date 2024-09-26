@@ -1,9 +1,7 @@
 #ifndef MENUTITEMS_H
 #define MENUTITEMS_H
 #include <psp2/kernel/clib.h> 
-#include "renderer.h"
-#include "log.h"
-#include "mem.h"
+#include <stdbool.h>
 
 #define FONT_VERT_DIST 20
 

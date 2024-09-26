@@ -47,6 +47,12 @@
         "processmgr.h": "c",
         "ratio": "c",
         "typeindex": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "gamemodloader.h": "c",
+        "dlfcn.h": "c",
+        "dirent.h": "c",
+        "fcntl.h": "c",
+        "moduleref.h": "c",
+        "taiutils.h": "c"
     }
 }
