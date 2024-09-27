@@ -1,5 +1,6 @@
 #include "hooks.h"
 #include "gamemodloader.h"
+#include <psp2/display.h>
 
 
 
@@ -65,10 +66,27 @@ void ServerPlayer_new(int *a, int *b, int *c, int *d, int *e){
 	return;
 }
 
+tai_hook_ref_t* run_middle_REF;
+void run_middle(void* param){
+	TAI_NEXT(run_middle, *run_middle_REF, param);
+	return;
+}
+tai_hook_ref_t* local_player_tick_ref;
+void local_player_tick(void* localplayer){
+	//logInfo("local_player_tick begin %08X", localplayer);
+	player = localplayer;
+	playerAdd = localplayer;
+	setPlayer(player);
+	TAI_NEXT(local_player_tick, *local_player_tick_ref, player);
+	return;
+}
+
 void setupHooks(){
 	logInfo("Hooking");
 	Player_new_REF = add_taiHookFunctionOffset(0x32e5a8, Player_new);
 	ServerPlayer_new_REF = add_taiHookFunctionOffset(0x83458c, ServerPlayer_new);
+	//run_middle_REF = add_taiHookFunctionOffset(0x7d5f70, run_middle);
+	local_player_tick_ref = add_taiHookFunctionOffset(0x7edcca, local_player_tick);
     doTestHooks();
 }
 

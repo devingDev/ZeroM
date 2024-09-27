@@ -54,6 +54,12 @@
         "fcntl.h": "c",
         "moduleref.h": "c",
         "taiutils.h": "c",
-        "random": "c"
+        "random": "c",
+        "bit": "c",
+        "compare": "c",
+        "list": "c",
+        "functional": "c",
+        "numeric": "c",
+        "thread": "c"
     }
 }

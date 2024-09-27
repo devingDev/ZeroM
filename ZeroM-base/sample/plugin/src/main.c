@@ -58,7 +58,7 @@ void teleportForward(void* arg) {
     double zDir = (forward->z < 0.001 && forward->z > -0.001) ? 0 : forward->z;
 
     double newposx = zeroMData->Player->posx1 + (xDir * 10);
-    double newposy = zeroMData->Player->posy1 + (yDir * 1);
+    double newposy = zeroMData->Player->posy1 + (yDir * 1) + 1;
     double newposz = zeroMData->Player->posz1 + (zDir * 10);
     zeroMData->Player->__vftable->teleportTo(zeroMData->Player, newposx, newposy, newposz);
 }
