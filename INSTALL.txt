@@ -1,0 +1,12 @@
+Place the files correctly (i named the folders accordingly)
+Add these lines to your (ur0:|ux0:)/tai/config.txt
+
+#EU
+*PCSB00560
+ur0:tai/ZeroM.suprx
+#JP
+*PCSG00302
+ur0:tai/ZeroM.suprx
+#US
+*PCSE00491
+ur0:tai/ZeroM.suprx
