@@ -12,7 +12,7 @@ Probably have to do it for each version or have people use only one version.
 
 ## Getting Started
 
-IMPORTANT: You might need to install ioplus.skprx first!!!
+IMPORTANT: You might need to install [ioplus.skprx](https://github.com/TeamFAPS/PSVita-RE-tools/tree/master/ioPlus/ioPlus-0.1/release) first!!!
 
 ### Simple Install
 Add in config.txt under your minecraft title id, this is for europe:
