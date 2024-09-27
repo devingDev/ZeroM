@@ -1,0 +1,79 @@
+name: ZeroM PSVita Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+
+    - name: Install dependencies (git, cmake, etc.)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git cmake make
+
+    - name: Clone and install vitasdk
+      run: |
+        git clone https://github.com/vitasdk/vdpm
+        cd vdpm
+        ./bootstrap-vitasdk.sh
+        export VITASDK=/usr/local/vitasdk
+        export PATH=$VITASDK/bin:$PATH
+        ./install-all.sh
+
+    - name: Build project
+      run: |
+        export VITASDK=/usr/local/vitasdk
+        export PATH=$VITASDK/bin:$PATH
+        cd scripts
+        sh run_zerom_all.sh
+        sh sampleplugin.sh
+
+    - name: Archive build artifacts
+      run: |
+        cd scripts
+        sh makerelease.sh
+
+    - name: Delete existing release
+      run: |
+        curl -X DELETE \
+        -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+        https://api.github.com/repos/${{ github.repository }}/releases/tags/v1.0.0
+      continue-on-error: true  # Ignore error if release doesn't exist
+
+    - name: Delete existing tag
+      run: |
+        git push --delete origin v1.0.0 || true  # Ignore error if tag doesn't exist
+
+    - name: Recreate tag
+      run: |
+        git tag -f v1.0.0
+        git push origin --tags
+
+    - name: Create or update GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
+      with:
+        tag_name: v1.0.0  # Reuse the same tag name
+        release_name: "Automated Release"
+        body: "from automatic build on push"
+        draft: false
+        prerelease: false
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload Release Assets
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: scripts/tmp/zerom_release.zip
+        asset_name: zerom_release.zip
+        asset_content_type: application/zip
+        
