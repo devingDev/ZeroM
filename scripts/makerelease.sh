@@ -1,5 +1,6 @@
 
 
+rm -rf tmp
 mkdir -p tmp/zerom_release/ux0/zerom
 mkdir -p tmp/zerom_release/ur0/tai
 
