@@ -1,4 +1,4 @@
-# ZeroM - Minecraft (PSVita Edition) presented by Bizzy
+# ZeroM - Minecraft (PSVita Edition) presented by Bizzy!
 
 A Minecraft (PSVita Edition) plugin that will hopefully act like a mod loader
 
