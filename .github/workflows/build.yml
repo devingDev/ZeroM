@@ -68,8 +68,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: continuous  # Reuse the same tag name
-        release_name: "Automated Release"
-        body: "from automatic build on push"
+        release_name: "Latest Build"
+        body: "Latest build (automated release)"
         draft: false
         prerelease: false
         token: ${{ secrets.GITHUB_TOKEN }}
