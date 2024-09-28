@@ -81,12 +81,35 @@ void local_player_tick(void* localplayer){
 	return;
 }
 
+
+
+
+// add item test
+
+tai_hook_ref_t* MinecraftWorld_RunStaticCtors_ref;
+void MinecraftWorld_RunStaticCtors(void){
+	TAI_NEXT(MinecraftWorld_RunStaticCtors, *MinecraftWorld_RunStaticCtors_ref);
+	logInfo("MinecraftWorld_RunStaticCtors");
+}
+tai_hook_ref_t* TextureAtlas__loadUVs_ref;
+void TextureAtlas__loadUVs(int* atlasAddr){
+	TAI_NEXT(TextureAtlas__loadUVs, *TextureAtlas__loadUVs_ref, atlasAddr);
+	logInfo("TextureAtlas__loadUVs %08X", atlasAddr);
+}
+
+
+
+
 void setupHooks(){
 	logInfo("Hooking");
 	Player_new_REF = add_taiHookFunctionOffset(0x32e5a8, Player_new);
 	ServerPlayer_new_REF = add_taiHookFunctionOffset(0x83458c, ServerPlayer_new);
 	//run_middle_REF = add_taiHookFunctionOffset(0x7d5f70, run_middle);
 	local_player_tick_ref = add_taiHookFunctionOffset(0x7edcca, local_player_tick);
+
+	MinecraftWorld_RunStaticCtors_ref = add_taiHookFunctionOffset(0x2c904a, MinecraftWorld_RunStaticCtors);
+	TextureAtlas__loadUVs_ref = add_taiHookFunctionOffset(0x89b47a, TextureAtlas__loadUVs);
+
     doTestHooks();
 }
 
