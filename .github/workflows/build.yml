@@ -45,7 +45,7 @@ jobs:
     - name: Delete existing release
       run: |
         curl -X DELETE \
-        -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
+        -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
         https://api.github.com/repos/${{ github.repository }}/releases/tags/v1.0.0
       continue-on-error: true  # Ignore error if release doesn't exist
 
@@ -58,7 +58,7 @@ jobs:
         git tag -f v1.0.0
         git push origin --tags
       env:
-        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}  # Use PAT for pushing
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create or update GitHub Release
       id: create_release
@@ -69,7 +69,7 @@ jobs:
         body: "from automatic build on push"
         draft: false
         prerelease: false
-        token: ${{ secrets.PAT_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload Release Assets
       uses: actions/upload-release-asset@v1
