@@ -42,15 +42,6 @@ jobs:
         cd scripts
         sh makerelease.sh
 
-    - name: Delete existing release
-      run: |
-        curl -X DELETE \
-        -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-        https://api.github.com/repos/${{ github.repository }}/releases/tags/continuous
-      continue-on-error: true  # Ignore error if release doesn't exist
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - run: gh release delete continuous --cleanup-tag -y
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -60,6 +51,7 @@ jobs:
         git push --delete origin continuous || true  # Ignore error if tag doesn't exist
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      continue-on-error: true
 
     - name: Recreate tag
       run: |
