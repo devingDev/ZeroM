@@ -1,4 +1,4 @@
-# ZeroM - Minecraft (PSVita Edition) presented by coderx3(aka Bizzy/Magus)
+# ZeroM - Minecraft (PSVita Edition) presented by Bizzy
 
 A Minecraft (PSVita Edition) plugin that will hopefully act like a mod loader
 
@@ -91,9 +91,9 @@ ur0:tai/PluginReload.suprx
 
 Run one of the scripts (the suprx will be in ZeroM-base/build/).
 
-"zerom_build.sh" : main script, builds ZeroM.suprx
+"run_zerom_all.sh" : builds ZeroM and dependencies and then uploads it to the PSVita (and uploads if you set it right)
 
-"run_zerom_all.sh" : builds ZeroM and then uploads it to the PSVita and listens via nc
+// "zerom_build.sh" : main script, builds ZeroM.suprx
 
 "do_it_all.sh" : additionally also compiles PluginReload
 
