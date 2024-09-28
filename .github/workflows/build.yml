@@ -48,10 +48,14 @@ jobs:
         -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
         https://api.github.com/repos/${{ github.repository }}/releases/tags/v1.0.0
       continue-on-error: true  # Ignore error if release doesn't exist
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Delete existing tag
       run: |
         git push --delete origin v1.0.0 || true  # Ignore error if tag doesn't exist
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Recreate tag
       run: |
@@ -63,6 +67,8 @@ jobs:
     - name: Create or update GitHub Release
       id: create_release
       uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: v1.0.0  # Reuse the same tag name
         release_name: "Automated Release"
@@ -73,6 +79,8 @@ jobs:
 
     - name: Upload Release Assets
       uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: scripts/tmp/zerom_release.zip
