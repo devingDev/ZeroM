@@ -140,6 +140,8 @@ int module_start(SceSize argc, const void *args) {
 	setupHooks();
 	logInfo("Hooked\n");
 
+	addCustomItemsTest();
+
 	doPatches();
 	logInfo("Patched\n");
 	
