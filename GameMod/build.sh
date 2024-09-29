@@ -65,16 +65,3 @@ rm exports.yml
 
 echo "Build done."
 
-
-cd build
-lftp -u anonymous,anonymous ftp://192.168.178.32:1337 <<EOF
-
-cd ux0:/zerom
-
-put ./${your_mod_name}.suprx
-
-bye
-
-EOF
-
-echo "Upload done!"

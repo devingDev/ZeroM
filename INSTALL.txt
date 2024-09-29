@@ -1,6 +1,11 @@
-Place the files correctly (i named the folders accordingly)
-Add these lines to your (ur0:|ux0:)/tai/config.txt
+1. Place the files correctly (i named the folders accordingly)
+   (Do not add PluginReload.suprx if you do not want to use it.)
 
+
+2. Add these lines to your (ur0:|ux0:)/tai/config.txt
+   (and modify ur0 to ux0 if you use that instead)
+
+##################
 #EU
 *PCSB00560
 ur0:tai/ZeroM.suprx
@@ -10,3 +15,8 @@ ur0:tai/ZeroM.suprx
 #US
 *PCSE00491
 ur0:tai/ZeroM.suprx
+##################
+
+
+
+3. game mods go in ux0/zerom/
