@@ -25,9 +25,10 @@
 #include "customitem.h"
 
 
-const uint32_t ZEROM_VERSION = 18;
+const uint32_t ZEROM_VERSION = 19;
 
 bool pluginReloadLoaded = false;
+void* pluginReloadHandle = NULL;
 uint32_t (*GetPluginLoaderVersion)(void) = NULL; 
 
 int run = 1;
@@ -40,7 +41,7 @@ int ZeroM_thread(unsigned int args, void* argp){
 	while (run == 1)
 	{
 		//doNavigation(&menu);
-
+		
 		if(current_pad.buttons & SCE_CTRL_LTRIGGER){
 			if(current_pad.buttons & SCE_CTRL_SELECT){
 				activeMenu = !activeMenu;
@@ -110,8 +111,6 @@ int ZeroM_thread(unsigned int args, void* argp){
 	return 0;
 }
 
-
-
 void _start() __attribute__((weak, alias("module_start")));
 int module_start(SceSize argc, const void *args) {
 	logInfo("\n\n\n\n\n\n");
@@ -160,7 +159,7 @@ int module_start(SceSize argc, const void *args) {
 	logInfo("testLoadGameMod end\n");
 
 	logInfo("Testing for pluginreload\n");
-	void* pluginReloadHandle = dlopen("ur0:/tai/PluginReload.suprx", 0);	
+	pluginReloadHandle = dlopen("ur0:/tai/PluginReload.suprx", 0);
 	logInfo("dlopened pr %08X \n", pluginReloadHandle);
 	GetPluginLoaderVersion = dlsym(pluginReloadHandle, "GetPluginLoaderVersion");
 	logInfo("got fn pr %08X \n", GetPluginLoaderVersion);
@@ -170,6 +169,8 @@ int module_start(SceSize argc, const void *args) {
 	}else{
 		logInfo("PluginReload not found! %08X" , pluginReloadHandle);
 	}
+
+
 	
 
 	
@@ -187,5 +188,6 @@ int module_stop(SceSize argc, const void *args)
 	sceKernelWaitThreadEnd(thid, NULL, NULL);
 	unloadGameMods();
 	menu_end();
+
 	return SCE_KERNEL_STOP_SUCCESS;
 }

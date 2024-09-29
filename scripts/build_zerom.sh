@@ -4,6 +4,8 @@
 echo "[BUILD]"
 
 
+sh build_vitarsslibdl.sh
+
 
 echo "ZeroM-base"
 cd "../ZeroM-base"
