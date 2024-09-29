@@ -11,9 +11,9 @@ endif()
 project(PluginReload)
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 
-#set(ELF "${PROJECT_NAME}.elf")
-#set(SELF "${PROJECT_NAME}.suprx")
-set(LIB "${PROJECT_NAME}_stub")
+set(ELF PluginReload.elf)
+set(SELF PluginReload.suprx)
+set(LIB PluginReload_stub)
 set(LIB_FILE "lib${LIB}.a")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,-q -Wall -fshort-wchar -O3 -std=gnu99")
@@ -33,13 +33,15 @@ endif()
 
 # Builds
 
-add_executable("${PROJECT_NAME}"
+add_executable("${ELF}"
   main.c
 )
 
-target_include_directories("${PROJECT_NAME}" PRIVATE "../include" )
+target_include_directories("${ELF}"
+  PRIVATE "../include"
+)
 
-target_link_libraries("${PROJECT_NAME}"
+target_link_libraries("${ELF}"
   taihen_stub
   SceLibKernel_stub
   SceIofilemgr_stub
@@ -53,22 +55,22 @@ target_link_libraries("${PROJECT_NAME}"
 )
 
 
-vita_create_self("${PROJECT_NAME}"
-  "${PROJECT_NAME}"
+vita_create_self("${SELF}"
+  "${ELF}"
   CONFIG ${CMAKE_SOURCE_DIR}/PluginReload.yml
   UNSAFE
 )
 
 vita_create_stubs(stubs
-  "${PROJECT_NAME}"
+  "${ELF}"
   PluginReload.yml
   USER
 )
 
-#add_library("${PROJECT_NAME}" STATIC IMPORTED GLOBAL)
+add_library("${LIB}" STATIC IMPORTED GLOBAL)
 
-#add_dependencies("${PROJECT_NAME}" stubs)
+add_dependencies("${LIB}" stubs)
 
-#set_target_properties("${PROJECT_NAME}" PROPERTIES
-#  IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/stubs/${LIB_FILE}"
-#)
+set_target_properties("${LIB}" PROPERTIES
+  IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/stubs/${LIB_FILE}"
+)

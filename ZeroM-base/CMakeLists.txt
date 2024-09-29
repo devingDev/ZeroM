@@ -16,13 +16,12 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,-q -Wall -w -O3 -std=gnu99 ")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions")
 
 
-add_subdirectory(PluginReload)
-
 
 include_directories(
   ${CMAKE_SOURCE_DIR}/include/
-  ${CMAKE_SOURCE_DIR}/gamemod/include/
-  ${CMAKE_SOURCE_DIR}/PluginReload/
+  ${CMAKE_SOURCE_DIR}/../common/
+  ${CMAKE_SOURCE_DIR}/../GameMod/include/
+  ${CMAKE_SOURCE_DIR}/../PluginReload/include/
   
 )
 
@@ -52,17 +51,7 @@ add_executable(${PROJECT_NAME}
   src/customitem.c
 )
 
-add_dependencies(${PROJECT_NAME} PluginReload)
-
-#set(LIB PluginReload_stub_weak)
-#set(LIB_FILE "lib${LIB}.a")
-#add_library("${LIB}" STATIC IMPORTED GLOBAL)
-#add_dependencies("${LIB}" stubs)
-#set_target_properties(PluginReload PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/PluginReload/build/stubs/${LIB_FILE}" )
-
 target_include_directories(${PROJECT_NAME} PRIVATE $ENV{VITASDK}/arm-vita-eabi/include/)
-
-target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_BUILD_DIR}/PluginReload/stubs/)
 
 target_link_libraries(${PROJECT_NAME}
   #"${CMAKE_CURRENT_SOURCE_DIR}/../vita-rss-libdl/build/libdl.a"
@@ -81,7 +70,6 @@ target_link_libraries(${PROJECT_NAME}
   k
   gcc
   ScePower_stub
-  PluginReload_stub_weak
   
 )
 

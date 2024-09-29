@@ -1,5 +1,5 @@
 
 
-sh plugin_reload_build.sh && sh eplugin_reload_upload.sh && sh run_zerom_all.sh
+sh pluginreload_full.sh && sh zerom_full.sh && sh gamemod_full.sh
 
 echo "End of do_it_all.sh";

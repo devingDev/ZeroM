@@ -28,6 +28,8 @@
 const uint32_t ZEROM_VERSION = 17;
 
 bool pluginReloadLoaded = false;
+uint32_t (*GetPluginLoaderVersion)(void) = NULL; 
+
 int run = 1;
 SceUID thid = -1;
 
@@ -121,6 +123,7 @@ int module_start(SceSize argc, const void *args) {
 	logInfo("memcpy : %s\n", dest);
 
 	// search for pluginreload plugin
+	/*
 	tai_module_info_t prinfo;
 	prinfo.size = sizeof(tai_module_info_t);
 	int res = taiGetModuleInfo("PluginReload", &prinfo);
@@ -130,8 +133,8 @@ int module_start(SceSize argc, const void *args) {
 		logInfo("PluginReload Version: %d" , GetPluginLoaderVersion());
 	}else{
 		logInfo("PluginReload not found! %08X" , res);
-	}
-	
+	}*/
+
 	prepareHooking();
 	
 	thid = sceKernelCreateThread("ZeroM_thread", ZeroM_thread, 0x40, 0x10000, 0, 0, NULL);
@@ -155,6 +158,20 @@ int module_start(SceSize argc, const void *args) {
 	logInfo("testLoadGameMod start\n");
 	loadGameMods();
 	logInfo("testLoadGameMod end\n");
+
+	logInfo("Testing for pluginreload\n");
+	void* pluginReloadHandle = dlopen("ur0:/tai/PluginReload.suprx", 0);	
+	logInfo("dlopened pr %08X \n", pluginReloadHandle);
+	GetPluginLoaderVersion = dlsym(pluginReloadHandle, "GetPluginLoaderVersion");
+	logInfo("got fn pr %08X \n", GetPluginLoaderVersion);
+	if(GetPluginLoaderVersion != NULL){
+		pluginReloadLoaded = true;
+		logInfo("PluginReload Version: %d" , GetPluginLoaderVersion());
+	}else{
+		logInfo("PluginReload not found! %08X" , pluginReloadHandle);
+	}
+	
+
 	
 	return SCE_KERNEL_START_SUCCESS;
 }

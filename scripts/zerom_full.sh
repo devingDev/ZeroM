@@ -1,8 +1,8 @@
 
-echo "Steps: [BUILD] -> [FTP UPLOAD] -> netcat listen to printf"
+echo "Steps: 1. [BUILD] -> 2. [FTP UPLOAD]"
 
 
-sh zerom_build.sh
+sh build_zerom.sh
 if [ $? -ne 0 ]; then
   echo "Build failed. Stopping script."
   exit 1
@@ -10,4 +10,4 @@ fi
 
 sh upload_zerom.sh # && sh netcat_listen.sh # switched to psmusblog
 
-echo "End of run_zerom_all.sh";
+echo "End of zerom_full.sh";

@@ -107,8 +107,8 @@ void setupHooks(){
 	//run_middle_REF = add_taiHookFunctionOffset(0x7d5f70, run_middle);
 	local_player_tick_ref = add_taiHookFunctionOffset(0x7edcca, local_player_tick);
 
-	MinecraftWorld_RunStaticCtors_ref = add_taiHookFunctionOffset(0x2c904a, MinecraftWorld_RunStaticCtors);
-	TextureAtlas__loadUVs_ref = add_taiHookFunctionOffset(0x89b47a, TextureAtlas__loadUVs);
+	//MinecraftWorld_RunStaticCtors_ref = add_taiHookFunctionOffset(0x2c904a, MinecraftWorld_RunStaticCtors);
+	//TextureAtlas__loadUVs_ref = add_taiHookFunctionOffset(0x89b47a, TextureAtlas__loadUVs);
 	
     doTestHooks();
 }

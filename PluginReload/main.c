@@ -17,6 +17,9 @@
 const uint32_t PLUGINLOADER_VERSION = 12;
 uint32_t GetPluginLoaderVersion(){ return PLUGINLOADER_VERSION; }
 
+
+bool isZeroMRunning = false;
+
 void load_ZeroM();
 void unload_ZeroM();
 void dump_ram();
@@ -62,9 +65,21 @@ int PluginLoader_thread(unsigned int args, void* argp)
 SceUID zeroMModuleId = -1;
 void load_ZeroM(){
 	sceClibPrintf("Loading ZeroM \n");
-	int status;
-	zeroMModuleId = sceKernelLoadStartModule("ur0:/tai/ZeroM.suprx", 0, 0, 0, NULL, &status); 
-	sceClibPrintf("Loaded module response: %08x STATUS %08x \n", zeroMModuleId, status);
+
+	tai_module_info_t prinfo;
+	prinfo.size = sizeof(tai_module_info_t);
+	int res = taiGetModuleInfo("ZeroM", &prinfo);
+	isZeroMRunning = res == 0;
+	if(isZeroMRunning){
+		sceClibPrintf("ZeroM is already running! %08X" , res);
+		zeroMModuleId = prinfo.modid;
+	}else{
+		sceClibPrintf("ZeroM not loaded yet, starting! %08X" , res);
+		int status;
+		zeroMModuleId = sceKernelLoadStartModule("ur0:/tai/ZeroM.suprx", 0, 0, 0, NULL, &status); 
+		sceClibPrintf("Loaded module response: %08x STATUS %08x \n", zeroMModuleId, status);
+	}
+
 }
 
 void unload_ZeroM(){
