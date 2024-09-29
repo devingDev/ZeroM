@@ -11,9 +11,9 @@ endif()
 project(PluginReload)
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 
-set(ELF PluginReload.elf)
-set(SELF PluginReload.suprx)
-set(LIB PluginReload_stub)
+set(ELF "${PROJECT_NAME}.elf")
+set(SELF "${PROJECT_NAME}.suprx")
+set(LIB "${PROJECT_NAME}_stub")
 set(LIB_FILE "lib${LIB}.a")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,-q -Wall -fshort-wchar -O3 -std=gnu99")
@@ -65,10 +65,10 @@ vita_create_stubs(stubs
   USER
 )
 
-add_library("${LIB}" STATIC IMPORTED GLOBAL)
+add_library("${PROJECT_NAME}" STATIC IMPORTED GLOBAL)
 
-add_dependencies("${LIB}" stubs)
+add_dependencies("${PROJECT_NAME}" stubs)
 
-set_target_properties("${LIB}" PROPERTIES
+set_target_properties("${PROJECT_NAME}" PROPERTIES
   IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/stubs/${LIB_FILE}"
 )

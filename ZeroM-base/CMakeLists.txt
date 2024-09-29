@@ -58,9 +58,11 @@ add_dependencies(${PROJECT_NAME} PluginReload)
 #set(LIB_FILE "lib${LIB}.a")
 #add_library("${LIB}" STATIC IMPORTED GLOBAL)
 #add_dependencies("${LIB}" stubs)
-#set_target_properties(PluginReload PROPERTIES   IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/PluginReload/build/stubs/${LIB_FILE}" )
+#set_target_properties(PluginReload PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_BINARY_DIR}/PluginReload/build/stubs/${LIB_FILE}" )
 
 target_include_directories(${PROJECT_NAME} PRIVATE $ENV{VITASDK}/arm-vita-eabi/include/)
+
+target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_BUILD_DIR}/PluginReload/stubs/)
 
 target_link_libraries(${PROJECT_NAME}
   #"${CMAKE_CURRENT_SOURCE_DIR}/../vita-rss-libdl/build/libdl.a"
