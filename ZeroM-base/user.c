@@ -22,6 +22,7 @@
 #include "pluginreload.h"
 #include "gamemod.h"
 #include "gamemodloader.h"
+#include "customitem.h"
 
 
 const uint32_t ZEROM_VERSION = 17;

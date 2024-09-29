@@ -46,6 +46,7 @@ add_executable(user
   mem.c
   hash.c
   gamemodloader.c
+  customitem.c
 )
 
 set(LIB PluginReload_stub_weak)
