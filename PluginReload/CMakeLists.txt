@@ -57,7 +57,7 @@ target_link_libraries("${ELF}"
 
 vita_create_self("${SELF}"
   "${ELF}"
-  CONFIG ${CMAKE_SOURCE_DIR}/PluginReload.yml
+  CONFIG PluginReload.yml
   UNSAFE
 )
 

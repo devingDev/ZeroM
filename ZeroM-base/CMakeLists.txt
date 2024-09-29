@@ -81,5 +81,5 @@ set_target_properties(${PROJECT_NAME}
 
 vita_create_self(${PROJECT_NAME}.suprx ${PROJECT_NAME}
   UNSAFE
-  CONFIG ${CMAKE_SOURCE_DIR}/ZeroM.yml
+  CONFIG ZeroM.yml
 )
