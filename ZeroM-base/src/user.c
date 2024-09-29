@@ -25,7 +25,7 @@
 #include "customitem.h"
 
 
-const uint32_t ZEROM_VERSION = 17;
+const uint32_t ZEROM_VERSION = 18;
 
 bool pluginReloadLoaded = false;
 uint32_t (*GetPluginLoaderVersion)(void) = NULL; 
