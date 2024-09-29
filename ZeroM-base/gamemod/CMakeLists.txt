@@ -16,10 +16,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-rtti -fno-exceptions -nostdlib -std
 
 
 include_directories(
-  ./
-  ./src
-  "${CMAKE_CURRENT_SOURCE_DIR}/../../"
-  "${CMAKE_CURRENT_SOURCE_DIR}/../../structures/"
+  ${CMAKE_SOURCE_DIR}/include
+  ${CMAKE_SOURCE_DIR}/../
   
 )
 

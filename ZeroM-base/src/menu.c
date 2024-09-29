@@ -1,5 +1,5 @@
 #include "menu.h"
-#include "../common/pluginreload.h"
+#include "pluginreload.h"
 #include "menuitems.h"
 #include "navigation.h"
 #include <psp2/kernel/sysmem.h>

@@ -8,18 +8,21 @@ if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   endif()
 endif()
 
+
 project(ZeroM)
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,-q -Wall -w -O3 -std=gnu99 ")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions")
 
+
+add_subdirectory(PluginReload)
+
+
 include_directories(
-  ./
-  ./structures
-  "${CMAKE_CURRENT_SOURCE_DIR}/../common/"
-  "${CMAKE_CURRENT_SOURCE_DIR}/sample/plugin/src/"
-  "${CMAKE_CURRENT_SOURCE_DIR}/../vita-rss-libdl/include/"
+  ${CMAKE_SOURCE_DIR}/include/
+  ${CMAKE_SOURCE_DIR}/gamemod/include/
+  ${CMAKE_SOURCE_DIR}/PluginReload/
   
 )
 
@@ -34,31 +37,32 @@ endif()
 # Builds
 
 
-add_executable(user
-  user.c
-  hooks.c
-  log.c
-  testhooks.c
-  patches.c
-  renderer.c
-  menu.c
-  navigation.c
-  mem.c
-  hash.c
-  gamemodloader.c
-  customitem.c
+add_executable(${PROJECT_NAME}
+  src/user.c
+  src/hooks.c
+  src/log.c
+  src/testhooks.c
+  src/patches.c
+  src/renderer.c
+  src/menu.c
+  src/navigation.c
+  src/mem.c
+  src/hash.c
+  src/gamemodloader.c
+  src/customitem.c
 )
 
-set(LIB PluginReload_stub_weak)
-set(LIB_FILE "lib${LIB}.a")
-add_library("${LIB}" STATIC IMPORTED GLOBAL)
-add_dependencies("${LIB}" stubs)
-set_target_properties("${LIB}" PROPERTIES
-  IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/../PluginReload/build/stubs/${LIB_FILE}"
-)
+add_dependencies(${PROJECT_NAME} PluginReload)
 
+#set(LIB PluginReload_stub_weak)
+#set(LIB_FILE "lib${LIB}.a")
+#add_library("${LIB}" STATIC IMPORTED GLOBAL)
+#add_dependencies("${LIB}" stubs)
+#set_target_properties(PluginReload PROPERTIES   IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/PluginReload/build/stubs/${LIB_FILE}" )
 
-target_link_libraries(user
+target_include_directories(${PROJECT_NAME} PRIVATE $ENV{VITASDK}/arm-vita-eabi/include/)
+
+target_link_libraries(${PROJECT_NAME}
   #"${CMAKE_CURRENT_SOURCE_DIR}/../vita-rss-libdl/build/libdl.a"
   dl
   taihen_stub
@@ -79,11 +83,13 @@ target_link_libraries(user
   
 )
 
-set_target_properties(user
+target_include_directories(${PROJECT_NAME} PRIVATE $ENV{VITASDK}/arm-vita-eabi/include/)
+
+set_target_properties(${PROJECT_NAME}
   PROPERTIES LINK_FLAGS "-nostdlib"
 )
 
-vita_create_self(ZeroM.suprx user
+vita_create_self(${PROJECT_NAME}.suprx ${PROJECT_NAME}
   UNSAFE
-  CONFIG ${CMAKE_SOURCE_DIR}/user.yml
+  CONFIG ${CMAKE_SOURCE_DIR}/ZeroM.yml
 )

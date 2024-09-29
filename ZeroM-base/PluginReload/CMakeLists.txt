@@ -37,9 +37,7 @@ add_executable("${ELF}"
   main.c
 )
 
-target_include_directories("${ELF}"
-  PRIVATE "../include"
-)
+target_include_directories("${ELF}" PRIVATE "../include" )
 
 target_link_libraries("${ELF}"
   taihen_stub
