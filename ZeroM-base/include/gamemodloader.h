@@ -4,4 +4,5 @@
 void loadGameMods();
 void unloadGameMods();
 void setPlayer(Player* player);
+extern int countGameMods;
 #endif

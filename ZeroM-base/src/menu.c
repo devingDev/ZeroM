@@ -2,6 +2,7 @@
 #include "pluginreload.h"
 #include "menuitems.h"
 #include "navigation.h"
+#include "gamemodloader.h"
 #include <psp2/kernel/sysmem.h>
 
 
@@ -52,7 +53,8 @@ int sceDisplaySetFrameBuf_patched(const SceDisplayFrameBuf *pParam, int sync) {
 		drawStringF(5, 25, " L+Select: Toggle menu; L/R: switch tabs ");
 
 		sceKernelGetFreeMemorySize(&freeMemInfo);
-		drawStringF(5, 45, "Free Memory : %d", freeMemInfo.size_phycont);
+		//drawStringF(5, 45, "Free Memory : %d", freeMemInfo.size_phycont); // always 0 anyway?
+		drawStringF(5, 45, "Mods loaded : %d ", countGameMods);
 
 		display_menu(&menu);
 	}
