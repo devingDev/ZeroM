@@ -53,8 +53,8 @@ int sceDisplaySetFrameBuf_patched(const SceDisplayFrameBuf *pParam, int sync) {
 		drawStringF(5, 25, " L+Select: Toggle menu; L/R: switch tabs ");
 
 		sceKernelGetFreeMemorySize(&freeMemInfo);
-		//drawStringF(5, 45, "Free Memory : %d", freeMemInfo.size_phycont); // always 0 anyway?
-		drawStringF(5, 45, "Mods loaded : %d ", countGameMods);
+		//drawStringF(5, 45, "  Free Memory : %d", freeMemInfo.size_phycont); // always 0 anyway?
+		drawStringF(5, 45, "  Mods loaded : %d ", countGameMods);
 
 		display_menu(&menu);
 	}
@@ -70,11 +70,12 @@ void drawTabs(Tab* tabs, int tab_count, int current_tab){
 			setTextColor(0x0000FFFF);
 			setTextImportant();
 		}
-		drawStringF(x + 128*i, y, " %s ", tabs[i].name);
+		drawStringF(x, y, " %s ", tabs[i].name);
 		if(current_tab == i){
 			setTextColor(0x00FFFFFF);
 			setTextUnimportant();
 		}
+		x += (sceClibStrnlen(tabs[i].name, 64)+2) * 15;
 	}
 }
 
