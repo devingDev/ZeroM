@@ -29,18 +29,12 @@ jobs:
         export PATH=$VITASDK/bin:$PATH
         ./install-all.sh
 
-    - name: Build project
+    - name: Build project and make release zip
       run: |
         export VITASDK=/usr/local/vitasdk
         export PATH=$VITASDK/bin:$PATH
         cd scripts
-        sh run_zerom_all.sh
-        sh sampleplugin.sh
-
-    - name: Archive build artifacts
-      run: |
-        cd scripts
-        sh makerelease.sh
+        sh make_release.sh
 
     - run: gh release delete continuous --cleanup-tag -y
       env:
