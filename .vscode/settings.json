@@ -60,6 +60,7 @@
         "list": "c",
         "functional": "c",
         "numeric": "c",
-        "thread": "c"
+        "thread": "c",
+        "customitem.h": "c"
     }
 }

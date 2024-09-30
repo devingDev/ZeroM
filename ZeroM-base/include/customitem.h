@@ -1,11 +1,15 @@
 #ifndef CUSTOMITEM_H
 #define CUSTOMITEM_H
 
-void addCustomItemsTest();
+#include "item.h"
 
 typedef struct{
     
 } TextureAtlas;
+
+void addCustomItemsTest();
+void addHooksCustomItem();
+
 
 
 #endif

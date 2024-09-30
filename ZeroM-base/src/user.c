@@ -154,6 +154,8 @@ int module_start(SceSize argc, const void *args) {
 	navigation_hooks();
 	logInfo("Navigation hooked\n");
 
+	addHooksCustomItem();
+
 	logInfo("testLoadGameMod start\n");
 	loadGameMods();
 	logInfo("testLoadGameMod end\n");

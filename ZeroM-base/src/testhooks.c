@@ -19,7 +19,7 @@ void MinecraftServer__tick(int *param_1){
 void doTestHooks(){
 	logInfo("Adding test hooks...");
 
-    LocalPlayer__tick_REF = add_taiHookFunctionOffset(0x7edcca, LocalPlayer__tick);
+    //LocalPlayer__tick_REF = add_taiHookFunctionOffset(0x7edcca, LocalPlayer__tick);
     MinecraftServer__tick_REF = add_taiHookFunctionOffset(0x80a11e, MinecraftServer__tick);
 
 
