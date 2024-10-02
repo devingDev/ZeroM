@@ -52,7 +52,7 @@ extern int* playerAdd;
 extern Player* player;
 
 extern int* serverplayerAdd;
-extern Player* serverplayer;
+extern ServerPlayer* serverplayer;
 
 
 

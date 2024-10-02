@@ -1,5 +1,7 @@
 #ifndef ITEM_H
 #define ITEM_H
+#include <stdint.h>
+#include <wchar.h>
 
 
 #define undefRet int
@@ -59,6 +61,14 @@ typedef struct{
     undefItemFun GetOverrideCountIcon;
 
 } ItemVtable;
+
+typedef struct{
+    ItemVtable* vtbl;
+    uint8_t pad[0x4 * 0x13];
+    wchar_t* iconName;
+    uint32_t field_0x70;
+
+} Item;
 
 
 #endif

@@ -59,6 +59,13 @@ int ZeroM_thread(unsigned int args, void* argp){
 				logInfo("\n\n=====[DUMP BEGIN]=====");
 				print_bytes((void*)player, 0xA90);
 				logInfo("\n=====[DUMP END]=====\n\n");
+				logInfo("\nlocal : %08X \n\n", player);
+
+				logInfo(" serverplayer %08X", serverplayer);
+				wchar_t name[32];
+				serverplayer->__vftable->LivingEntity__kill(serverplayer);
+				//serverplayer->__vftable->Player__getName(serverplayer, name);
+				logInfo("name %ls\n\n", name);
 
 			}
 

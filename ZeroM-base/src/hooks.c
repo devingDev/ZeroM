@@ -55,7 +55,7 @@ void Player_new(int *a, int *b,int *c){
 	logInfo("Player_new_REF end   %08X", a);
 }
 int* serverplayerAdd;
-Player* serverplayer;
+ServerPlayer* serverplayer;
 tai_hook_ref_t* ServerPlayer_new_REF;
 void ServerPlayer_new(int *a, int *b, int *c, int *d, int *e){
 	logInfo("ServerPlayer_new_REF begin %08X", a);

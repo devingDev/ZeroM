@@ -19,7 +19,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions")
 
 include_directories(
   ${CMAKE_SOURCE_DIR}/include/
-  ${CMAKE_SOURCE_DIR}/../common/
+  ${CMAKE_SOURCE_DIR}/../common/include/
   ${CMAKE_SOURCE_DIR}/../GameMod/include/
   ${CMAKE_SOURCE_DIR}/../PluginReload/include/
   
@@ -49,6 +49,8 @@ add_executable(${PROJECT_NAME}
   src/hash.c
   src/gamemodloader.c
   src/customitem.c
+
+  ../common/src/resourcelocation.c
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE $ENV{VITASDK}/arm-vita-eabi/include/)

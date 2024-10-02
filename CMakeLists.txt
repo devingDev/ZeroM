@@ -18,7 +18,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions")
 
 
 include_directories(
-  ${CMAKE_SOURCE_DIR}/common/
+  ${CMAKE_SOURCE_DIR}/common/include/
   ${CMAKE_SOURCE_DIR}/ZeroM-base/include/
   ${CMAKE_SOURCE_DIR}/GameMod/include/
   ${CMAKE_SOURCE_DIR}/PluginReload/include/

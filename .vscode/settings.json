@@ -61,6 +61,9 @@
         "functional": "c",
         "numeric": "c",
         "thread": "c",
-        "customitem.h": "c"
+        "customitem.h": "c",
+        "resourcelocation.h": "c",
+        "item.h": "c",
+        "wstring.h": "c"
     }
 }
